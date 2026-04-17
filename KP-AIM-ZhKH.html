@@ -87,18 +87,34 @@
     .result-label { font-size: 10px; font-weight: 700; color: #666; text-transform: uppercase; }
     .result-value { font-size: 16px; font-weight: 700; color: #0f2540; margin-top: 4px; }
 
+    /* FEATURED CASE */
+    .featured-case {
+      background: white; border: 1px solid #e5e7eb; border-radius: 16px;
+      padding: 40px; box-shadow: 0 2px 8px rgba(0,0,0,.05);
+      margin: 40px 0;
+    }
+    .featured-case .case-label { font-size: 12px; }
+    .featured-case h3 { font-size: 28px; font-weight: 800; margin-bottom: 16px; }
+    .featured-case p { font-size: 16px; color: #444; line-height: 1.8; margin-bottom: 20px; }
+
     /* CONTACT */
     .contact {
       background: white;
       text-align: center;
     }
     .contact-photo {
-      width: 120px; height: 120px;
+      width: 140px; height: 140px;
       border-radius: 50%;
       object-fit: cover;
-      margin: 0 auto 20px;
+      margin: 0 auto 24px;
       border: 3px solid #1066c0;
       box-shadow: 0 8px 24px rgba(16,102,192,.2);
+    }
+    .contact-info {
+      font-size: 14px; color: #666; margin-bottom: 12px;
+    }
+    .contact-name {
+      font-size: 28px; font-weight: 800; color: #0f2540; margin-bottom: 16px;
     }
     .contact-btns {
       display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 24px;
@@ -112,6 +128,15 @@
     }
     .tg-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(16,102,192,.3); }
 
+    /* PRICING */
+    .pricing { background: #f8fafc; }
+    .pricing-box {
+      background: white; border: 1px solid #e5e7eb; border-radius: 16px;
+      padding: 40px; max-width: 700px; margin: 0 auto; text-align: center;
+    }
+    .price { font-size: 48px; font-weight: 800; color: #0f2540; margin: 24px 0; }
+    .price-note { font-size: 14px; color: #666; margin-bottom: 32px; }
+
     footer {
       background: #0f2540; color: white;
       padding: 32px 24px; text-align: center; font-size: 13px;
@@ -123,6 +148,11 @@
       h2 { font-size: 32px; }
       section { padding: 60px 24px; }
       .cases-grid { grid-template-columns: 1fr; }
+      .featured-case { padding: 24px; }
+      .featured-case h3 { font-size: 22px; }
+      .contact-photo { width: 100px; height: 100px; }
+      .contact-name { font-size: 22px; }
+      .price { font-size: 36px; }
     }
   </style>
 </head>
@@ -152,47 +182,25 @@
     <p class="subtitle">Кейсы, которые работают</p>
     <div class="cases-grid">
 
-      <!-- Case 1: Chatbot (Flagship) -->
+      <!-- Case 1 -->
       <div class="case-card">
-        <div class="case-label">💬 ИИ-ассистент для жителей</div>
-        <h3>Чат-бот для ответов 24/7</h3>
-        <p>Жители задают вопросы о тарифах, порядке подачи заявок, графике ремонта, правах и обязанностях. Вместо очереди к диспетчеру — мгновенный ответ от ИИ-помощника, обученного на регламенте вашей УК, актуальных законах и истории решённых проблем. Система передаёт сложные обращения в диспетчеров, но только по необходимости.</p>
+        <div class="case-label">📱 Мобильные инспекции</div>
+        <h3>Цифровой осмотр домов</h3>
+        <p>Мобильное приложение с интеллектуальными чек-листами, привязкой к планам дома, фотофиксацией дефектов и автоматической отправкой отчётов.</p>
         <div class="case-result">
           <div class="result-label">Результат</div>
-          <div class="result-value">60–70% обращений снимаются автоматом, 150–300K ₽ экономии в месяц</div>
+          <div class="result-value">80% ускорение, полная история состояния дома</div>
         </div>
       </div>
 
       <!-- Case 2 -->
       <div class="case-card">
-        <div class="case-label">📱 Мобильные инспекции</div>
-        <h3>Цифровой осмотр домов и коммунальных систем</h3>
-        <p>Вместо бумажных форм и часовых фоторепортажей — мобильное приложение с интеллектуальными чек-листами, привязкой к планам дома, фотофиксацией дефектов и автоматической отправкой отчётов. Специалист заполняет форму быстро, система автоматически классифицирует проблемы и формирует смету.</p>
-        <div class="case-result">
-          <div class="result-label">Результат</div>
-          <div class="result-value">80% ускорение, полная история состояния дома, нулевые потери данных</div>
-        </div>
-      </div>
-
-      <!-- Case 3 -->
-      <div class="case-card">
         <div class="case-label">📊 Управленческий дашборд</div>
-        <h3>Единая точка контроля всего фонда</h3>
-        <p>Директор и менеджеры видят в одном месте: состояние домов и сетей, бюджет содержания и текущие расходы, задолженность жителей по статусам, загрузку персонала, график плановых ремонтов, сметы и смежные проекты. Данные подтягиваются автоматически из учётных систем и мобильных приложений специалистов. Никаких отчётов вручную.</p>
+        <h3>Единая точка контроля фонда</h3>
+        <p>Директор видит: состояние домов, бюджет, задолженность, загрузку персонала, график ремонтов, сметы. Автоматическая подтяжка данных из учётных систем.</p>
         <div class="case-result">
           <div class="result-label">Результат</div>
-          <div class="result-value">Стратегические решения на основе актуальных данных, экономия на аналитике</div>
-        </div>
-      </div>
-
-      <!-- Case 4 -->
-      <div class="case-card">
-        <div class="case-label">📄 Анализ документов ИИ</div>
-        <h3>Автоматическая обработка договоров и актов</h3>
-        <p>УК получает сотни документов ежемесячно: договоры жилищно-коммунального обслуживания, акты ремонта, жалобы, счёта коммунальщиков. ИИ автоматически их анализирует, выделяет правовые риски, расхождения с нормативами, обновления тарифов. Предлагает готовые действия. Ошибок в обработке практически не остаётся.</p>
-        <div class="case-result">
-          <div class="result-label">Результат</div>
-          <div class="result-value">Из часов на документ — в минуты, ноль ошибок в классификации</div>
+          <div class="result-value">Стратегические решения на основе актуальных данных</div>
         </div>
       </div>
 
@@ -200,41 +208,48 @@
   </div>
 </section>
 
-<!-- RESULTS IMAGE -->
-<section style="background: #f8fafc; padding: 60px 24px; text-align: center;">
+<!-- FEATURED: DOCUMENT ANALYSIS -->
+<section style="background: white; padding: 100px 24px;">
   <div class="container">
-    <img src="chatbot-results.jpg" alt="Результаты работы ИИ-ассистента" style="max-width: 800px; width: 100%; border-radius: 16px; box-shadow: 0 8px 28px rgba(0,0,0,.1);">
+    <div class="featured-case">
+      <div class="case-label">📄 Анализ документов ИИ</div>
+      <h3>Автоматическая обработка договоров и актов</h3>
+      <p>УК получает сотни документов ежемесячно: договоры жилищно-коммунального обслуживания, акты ремонта, жалобы, счёта коммунальщиков. ИИ автоматически их анализирует, выделяет правовые риски, расхождения с нормативами, обновления тарифов. Предлагает готовые действия. Ошибок в обработке практически не остаётся.</p>
+      <div class="case-result">
+        <div class="result-label">Результат</div>
+        <div class="result-value">Из часов на документ — в минуты, ноль ошибок в классификации</div>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- APPROACH -->
-<section style="background: white; padding: 80px 24px; text-align: center;">
+<!-- FEATURED: CHATBOT -->
+<section style="background: #f8fafc; padding: 100px 24px;">
   <div class="container">
-    <h2>Как мы работаем</h2>
-    <div style="max-width: 700px; margin: 0 auto; margin-top: 40px;">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;">
-        <div style="text-align: center;">
-          <div style="font-size: 32px; margin-bottom: 12px;">🔍</div>
-          <div style="font-weight: 700; margin-bottom: 8px;">Анализ</div>
-          <div style="font-size: 14px; color: #666;">Изучаем текущие процессы, боли и возможности УК</div>
-        </div>
-        <div style="text-align: center;">
-          <div style="font-size: 32px; margin-bottom: 12px;">🛠</div>
-          <div style="font-weight: 700; margin-bottom: 8px;">Проектирование</div>
-          <div style="font-size: 14px; color: #666;">Выбираем подходящие инструменты и архитектуру решений</div>
-        </div>
-        <div style="text-align: center;">
-          <div style="font-size: 32px; margin-bottom: 12px;">🚀</div>
-          <div style="font-weight: 700; margin-bottom: 8px;">Реализация</div>
-          <div style="font-size: 14px; color: #666;">Разрабатываем, тестируем и внедряем решения на вашей инфраструктуре</div>
-        </div>
+    <div class="featured-case">
+      <div class="case-label">💬 ИИ-ассистент для жителей</div>
+      <h3>Чат-бот для ответов 24/7</h3>
+      <p>Жители задают вопросы о тарифах, порядке подачи заявок, графике ремонта, правах и обязанностях. Вместо очереди к диспетчеру — мгновенный ответ от ИИ-помощника, обученного на регламенте вашей УК, актуальных законах и истории решённых проблем. Система передаёт сложные обращения в диспетчеров, но только по необходимости.</p>
+      <div style="margin-top: 24px; text-align: center;">
+        <img src="chatbot-results.jpg" alt="Результаты чат-бота" style="max-width: 100%; max-height: 400px; border-radius: 12px;">
       </div>
-      <p style="margin-top: 40px; font-size: 14px; color: #666; line-height: 1.8;">
-        Мы не просто консультируем — мы реализуем. От первого контакта до стабильной работы в продуктиве. Все наши решения имеют измеримый бизнес-эффект: сокращение часов на рутину, повышение качества обслуживания, рост удовлетворённости жителей.
-      </p>
-      <p style="margin-top: 20px; font-size: 14px; color: #666; line-height: 1.8;">
-        За время работы бюро «Диалектика» мы реализовали проекты по автоматизации в сфере ЖКХ, внедрили чат-ботов для управления жилищным фондом, разработали системы анализа документов с использованием искусственного интеллекта, и создали цифровые решения для повышения эффективности операций. Каждый проект — это не просто инструмент, а стратегический инструмент для снижения операционных расходов и повышения качества обслуживания жителей.
-      </p>
+      <div class="case-result" style="margin-top: 24px;">
+        <div class="result-label">Результат</div>
+        <div class="result-value">60–70% обращений снимаются автоматом, 150–300K ₽ экономии в месяц</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="цена">
+  <div class="container">
+    <h2 style="text-align: center;">Стоимость и процесс</h2>
+    <div class="pricing-box">
+      <p style="font-size: 16px; color: #666; margin-bottom: 20px;">Каждая УК уникальна. Расскажем, какой из подходов подойдёт под ваши задачи, бюджет и сроки, и как быстро можно получить первый результат.</p>
+      <p style="font-size: 14px; color: #999; margin-bottom: 32px;">Консультация и оценка проекта — бесплатно</p>
+
+      <a href="https://drive.google.com/file/d/12pw2gHmEBhL0sXJfN3KC1za3RYDDQeS0/view?usp=drive_link" target="_blank" class="tg-btn" style="background: #064e3b; display: inline-block; margin: 16px auto;">📁 Портфолио проектов</a>
     </div>
   </div>
 </section>
@@ -242,18 +257,10 @@
 <!-- CONTACT -->
 <section class="contact">
   <div class="container">
-    <h2>Готовы обсудить внедрение на вашей УК?</h2>
-    <p class="subtitle">Каждая УК уникальна. Расскажем, какой из подходов подойдёт под ваши задачи, бюджет и сроки, и как быстро можно получить первый результат</p>
-
-    <div style="background: #f8fafc; padding: 32px; border-radius: 16px; max-width: 600px; margin: 0 auto;">
+    <div style="max-width: 600px; margin: 0 auto;">
       <img src="kirill-alt.jpg" alt="Кирилл Игнатьев" class="contact-photo">
-      <div style="font-size: 14px; color: #666; margin-bottom: 12px;">
-        Менеджер заказов · Первая точка входа
-      </div>
-      <div style="font-size: 24px; font-weight: 800; margin-bottom: 8px;">Кирилл Игнатьев</div>
-      <p style="font-size: 14px; color: #666; margin-bottom: 24px;">
-        Обсудим вашу задачу, подберём подходящий формат работы и оценим сроки.
-      </p>
+      <div class="contact-name">Кирилл Игнатьев</div>
+      <div class="contact-info">Менеджер проектов · бюро «Диалектика»</div>
 
       <div class="contact-btns">
         <a href="https://max.ru/u/f9LHodD0cOIrZoVpHY4xYdRMWWNu2HBZ93ib4BNZ4EzwnU7XX3Ul5AVIMlI" target="_blank" class="tg-btn" style="background: #1066c0;">💬 MAX</a>
@@ -268,7 +275,7 @@
 <footer>
   <p>
     © 2026 <strong>бюро «Диалектика»</strong> &nbsp;·&nbsp;
-    Менеджер заказов: <a href="https://max.ru/u/f9LHodD0cOIrZoVpHY4xYdRMWWNu2HBZ93ib4BNZ4EzwnU7XX3Ul5AVIMlI">MAX</a> · <a href="https://t.me/Ignat_ki">TG</a> · <a href="tel:+79968837063">+7 996 883 70 63</a>
+    <a href="https://max.ru/u/f9LHodD0cOIrZoVpHY4xYdRMWWNu2HBZ93ib4BNZ4EzwnU7XX3Ul5AVIMlI">MAX</a> · <a href="https://t.me/Ignat_ki">TG</a> · <a href="tel:+79968837063">+7 996 883 70 63</a>
   </p>
 </footer>
 
