@@ -36,6 +36,39 @@
     }
     .nav-cta:hover { background: #0f2540; }
 
+    /* DROPDOWN */
+    .dropdown {
+      position: relative; display: inline-block;
+    }
+    .dropdown-toggle {
+      background: #1066c0; color: white; padding: 10px 24px;
+      border-radius: 50px; font-size: 14px; font-weight: 600;
+      border: none; cursor: pointer; transition: all .2s;
+    }
+    .dropdown-toggle:hover { background: #0f2540; }
+    .dropdown-menu {
+      position: absolute; top: 100%; right: 0; background: white; border: 1px solid #e5e5e5;
+      border-radius: 12px; box-shadow: 0 4px 16px rgba(0,0,0,.12);
+      min-width: 220px; margin-top: 8px; z-index: 999;
+      opacity: 0; visibility: hidden; transition: all .2s;
+      transform: translateY(-8px);
+    }
+    .dropdown-menu.active {
+      opacity: 1; visibility: visible; transform: translateY(0);
+    }
+    .dropdown-menu a {
+      display: block; padding: 12px 20px; color: #1a1a1a; text-decoration: none;
+      font-size: 14px; border-bottom: 1px solid #f0f0f0; transition: all .2s;
+    }
+    .dropdown-menu a:last-child { border-bottom: none; }
+    .dropdown-menu a:hover { background: #f8fafc; color: #1066c0; }
+    .dropdown-menu a::before {
+      margin-right: 8px; display: inline-block; width: 16px; text-align: center;
+    }
+    .dropdown-menu a:nth-child(1)::before { content: '💬'; }
+    .dropdown-menu a:nth-child(2)::before { content: '✈️'; }
+    .dropdown-menu a:nth-child(3)::before { content: '📞'; }
+
     /* HERO */
     .hero {
       margin-top: 60px;
@@ -162,7 +195,14 @@
 <nav>
   <div class="nav-inner">
     <div class="nav-logo">бюро «Диалектика»</div>
-    <a href="https://t.me/Ignat_ki" class="nav-cta">Обсудить</a>
+    <div class="dropdown">
+      <button class="dropdown-toggle">Обсудить</button>
+      <div class="dropdown-menu">
+        <a href="https://max.ru/u/f9LHodD0cOIrZoVpHY4xYdRMWWNu2HBZ93ib4BNZ4EzwnU7XX3Ul5AVIMlI" target="_blank">MAX</a>
+        <a href="https://t.me/Ignat_ki" target="_blank">Telegram</a>
+        <a href="tel:+79968837063">Позвонить</a>
+      </div>
+    </div>
   </div>
 </nav>
 
@@ -278,6 +318,30 @@
     <a href="https://max.ru/u/f9LHodD0cOIrZoVpHY4xYdRMWWNu2HBZ93ib4BNZ4EzwnU7XX3Ul5AVIMlI">MAX</a> · <a href="https://t.me/Ignat_ki">TG</a> · <a href="tel:+79968837063">+7 996 883 70 63</a>
   </p>
 </footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const dropdownToggle = document.querySelector('.dropdown-toggle');
+  const dropdownMenu = document.querySelector('.dropdown-menu');
+
+  dropdownToggle.addEventListener('click', function(e) {
+    e.stopPropagation();
+    dropdownMenu.classList.toggle('active');
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.dropdown')) {
+      dropdownMenu.classList.remove('active');
+    }
+  });
+
+  dropdownMenu.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function() {
+      dropdownMenu.classList.remove('active');
+    });
+  });
+});
+</script>
 
 </body>
 </html>
