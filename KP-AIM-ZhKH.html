@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ИИ и автоматизация для ЖКХ — бюро Диалектика</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #1a1a1a;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: rgba(255,255,255,.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #e5e5e5;
+      padding: 16px 0;
+      z-index: 1000;
+      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 24px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .nav-logo { font-size: 20px; font-weight: 800; color: #0f2540; }
+    .nav-cta {
+      background: #1066c0; color: white; padding: 10px 24px;
+      border-radius: 50px; font-size: 14px; font-weight: 600;
+      text-decoration: none; transition: all .2s;
+    }
+    .nav-cta:hover { background: #0f2540; }
+
+    /* HERO */
+    .hero {
+      margin-top: 60px;
+      background: linear-gradient(135deg, #0f2540 0%, #1a4a8a 50%, #1066c0 100%);
+      color: white;
+      padding: 100px 24px 120px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(circle at 20% 80%, rgba(100,184,255,.15) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 20%, rgba(100,184,255,.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero-content { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+    .hero h1 {
+      font-size: clamp(36px, 8vw, 72px);
+      font-weight: 900; line-height: 1.1;
+      margin-bottom: 20px; letter-spacing: -1px;
+    }
+    .hero h1 span { color: #64b8ff; }
+    .hero p {
+      font-size: 18px; opacity: .85;
+      margin-bottom: 40px; line-height: 1.6;
+    }
+
+    section { padding: 100px 24px; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h2 { font-size: 48px; font-weight: 800; margin-bottom: 16px; color: #0f2540; }
+    .subtitle { font-size: 18px; color: #666; margin-bottom: 60px; }
+
+    /* CASES */
+    .cases { background: #f8fafc; }
+    .cases-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 28px;
+    }
+    .case-card {
+      background: white; border: 1px solid #e5e7eb; border-radius: 16px;
+      padding: 28px; box-shadow: 0 2px 8px rgba(0,0,0,.05);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .case-card:hover { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,0,0,.1); }
+    .case-label { font-size: 11px; font-weight: 800; color: #1066c0; text-transform: uppercase; margin-bottom: 8px; letter-spacing: .5px; }
+    .case-card h3 { font-size: 20px; font-weight: 700; margin-bottom: 12px; }
+    .case-card p { font-size: 14px; color: #666; line-height: 1.7; }
+    .case-result { margin-top: 16px; padding-top: 16px; border-top: 1px solid #e5e7eb; }
+    .result-label { font-size: 10px; font-weight: 700; color: #666; text-transform: uppercase; }
+    .result-value { font-size: 16px; font-weight: 700; color: #0f2540; margin-top: 4px; }
+
+    /* CONTACT */
+    .contact {
+      background: white;
+      text-align: center;
+    }
+    .contact-photo {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 20px;
+      border: 3px solid #1066c0;
+      box-shadow: 0 8px 24px rgba(16,102,192,.2);
+    }
+    .contact-btns {
+      display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 24px;
+    }
+    .tg-btn {
+      display: inline-block;
+      padding: 14px 28px; border-radius: 12px; font-size: 14px;
+      font-weight: 600; text-decoration: none;
+      transition: all .2s; border: none; cursor: pointer;
+      background: #1066c0; color: white;
+    }
+    .tg-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(16,102,192,.3); }
+
+    footer {
+      background: #0f2540; color: white;
+      padding: 32px 24px; text-align: center; font-size: 13px;
+    }
+    footer a { color: #64b8ff; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 768px) {
+      h2 { font-size: 32px; }
+      section { padding: 60px 24px; }
+      .cases-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">бюро «Диалектика»</div>
+    <a href="https://t.me/Ignat_ki" class="nav-cta">Обсудить</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <h1>ИИ и автоматизация<br><span>для управления жилищным фондом</span></h1>
+    <p>Системный подход: от анализа процессов до внедрения решений. Реальные результаты на практике.</p>
+    <p style="font-size: 16px; opacity: .75; margin-top: 24px;">Помогаем УК сокращать операционные расходы, повышать качество обслуживания и автоматизировать рутину через ИИ-инструменты и цифровые процессы.</p>
+  </div>
+</section>
+
+<!-- CASES -->
+<section class="cases">
+  <div class="container">
+    <h2>Как мы помогаем УК</h2>
+    <p class="subtitle">Кейсы, которые работают</p>
+    <div class="cases-grid">
+
+      <!-- Case 1: Chatbot (Flagship) -->
+      <div class="case-card">
+        <div class="case-label">💬 ИИ-ассистент для жителей</div>
+        <h3>Чат-бот для ответов 24/7</h3>
+        <p>Жители задают вопросы о тарифах, порядке подачи заявок, графике ремонта, правах и обязанностях. Вместо очереди к диспетчеру — мгновенный ответ от ИИ-помощника, обученного на регламенте вашей УК, актуальных законах и истории решённых проблем. Система передаёт сложные обращения в диспетчеров, но только по необходимости.</p>
+        <div class="case-result">
+          <div class="result-label">Результат</div>
+          <div class="result-value">60–70% обращений снимаются автоматом, 150–300K ₽ экономии в месяц</div>
+        </div>
+      </div>
+
+      <!-- Case 2 -->
+      <div class="case-card">
+        <div class="case-label">📱 Мобильные инспекции</div>
+        <h3>Цифровой осмотр домов и коммунальных систем</h3>
+        <p>Вместо бумажных форм и часовых фоторепортажей — мобильное приложение с интеллектуальными чек-листами, привязкой к планам дома, фотофиксацией дефектов и автоматической отправкой отчётов. Специалист заполняет форму быстро, система автоматически классифицирует проблемы и формирует смету.</p>
+        <div class="case-result">
+          <div class="result-label">Результат</div>
+          <div class="result-value">80% ускорение, полная история состояния дома, нулевые потери данных</div>
+        </div>
+      </div>
+
+      <!-- Case 3 -->
+      <div class="case-card">
+        <div class="case-label">📊 Управленческий дашборд</div>
+        <h3>Единая точка контроля всего фонда</h3>
+        <p>Директор и менеджеры видят в одном месте: состояние домов и сетей, бюджет содержания и текущие расходы, задолженность жителей по статусам, загрузку персонала, график плановых ремонтов, сметы и смежные проекты. Данные подтягиваются автоматически из учётных систем и мобильных приложений специалистов. Никаких отчётов вручную.</p>
+        <div class="case-result">
+          <div class="result-label">Результат</div>
+          <div class="result-value">Стратегические решения на основе актуальных данных, экономия на аналитике</div>
+        </div>
+      </div>
+
+      <!-- Case 4 -->
+      <div class="case-card">
+        <div class="case-label">📄 Анализ документов ИИ</div>
+        <h3>Автоматическая обработка договоров и актов</h3>
+        <p>УК получает сотни документов ежемесячно: договоры жилищно-коммунального обслуживания, акты ремонта, жалобы, счёта коммунальщиков. ИИ автоматически их анализирует, выделяет правовые риски, расхождения с нормативами, обновления тарифов. Предлагает готовые действия. Ошибок в обработке практически не остаётся.</p>
+        <div class="case-result">
+          <div class="result-label">Результат</div>
+          <div class="result-value">Из часов на документ — в минуты, ноль ошибок в классификации</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS IMAGE -->
+<section style="background: #f8fafc; padding: 60px 24px; text-align: center;">
+  <div class="container">
+    <img src="chatbot-results.jpg" alt="Результаты работы ИИ-ассистента" style="max-width: 800px; width: 100%; border-radius: 16px; box-shadow: 0 8px 28px rgba(0,0,0,.1);">
+  </div>
+</section>
+
+<!-- APPROACH -->
+<section style="background: white; padding: 80px 24px; text-align: center;">
+  <div class="container">
+    <h2>Как мы работаем</h2>
+    <div style="max-width: 700px; margin: 0 auto; margin-top: 40px;">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px;">
+        <div style="text-align: center;">
+          <div style="font-size: 32px; margin-bottom: 12px;">🔍</div>
+          <div style="font-weight: 700; margin-bottom: 8px;">Анализ</div>
+          <div style="font-size: 14px; color: #666;">Изучаем текущие процессы, боли и возможности УК</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 32px; margin-bottom: 12px;">🛠</div>
+          <div style="font-weight: 700; margin-bottom: 8px;">Проектирование</div>
+          <div style="font-size: 14px; color: #666;">Выбираем подходящие инструменты и архитектуру решений</div>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 32px; margin-bottom: 12px;">🚀</div>
+          <div style="font-weight: 700; margin-bottom: 8px;">Реализация</div>
+          <div style="font-size: 14px; color: #666;">Разрабатываем, тестируем и внедряем решения на вашей инфраструктуре</div>
+        </div>
+      </div>
+      <p style="margin-top: 40px; font-size: 14px; color: #666; line-height: 1.8;">
+        Мы не просто консультируем — мы реализуем. От первого контакта до стабильной работы в продуктиве. Все наши решения имеют измеримый бизнес-эффект: сокращение часов на рутину, повышение качества обслуживания, рост удовлетворённости жителей.
+      </p>
+      <p style="margin-top: 20px; font-size: 14px; color: #666; line-height: 1.8;">
+        За время работы бюро «Диалектика» мы реализовали проекты по автоматизации в сфере ЖКХ, внедрили чат-ботов для управления жилищным фондом, разработали системы анализа документов с использованием искусственного интеллекта, и создали цифровые решения для повышения эффективности операций. Каждый проект — это не просто инструмент, а стратегический инструмент для снижения операционных расходов и повышения качества обслуживания жителей.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact">
+  <div class="container">
+    <h2>Готовы обсудить внедрение на вашей УК?</h2>
+    <p class="subtitle">Каждая УК уникальна. Расскажем, какой из подходов подойдёт под ваши задачи, бюджет и сроки, и как быстро можно получить первый результат</p>
+
+    <div style="background: #f8fafc; padding: 32px; border-radius: 16px; max-width: 600px; margin: 0 auto;">
+      <img src="kirill-alt.jpg" alt="Кирилл Игнатьев" class="contact-photo">
+      <div style="font-size: 14px; color: #666; margin-bottom: 12px;">
+        Менеджер заказов · Первая точка входа
+      </div>
+      <div style="font-size: 24px; font-weight: 800; margin-bottom: 8px;">Кирилл Игнатьев</div>
+      <p style="font-size: 14px; color: #666; margin-bottom: 24px;">
+        Обсудим вашу задачу, подберём подходящий формат работы и оценим сроки.
+      </p>
+
+      <div class="contact-btns">
+        <a href="https://max.ru/u/f9LHodD0cOIrZoVpHY4xYdRMWWNu2HBZ93ib4BNZ4EzwnU7XX3Ul5AVIMlI" target="_blank" class="tg-btn" style="background: #1066c0;">💬 MAX</a>
+        <a href="https://t.me/Ignat_ki" target="_blank" class="tg-btn" style="background: #1a4a8a;">✈️ Telegram</a>
+        <a href="tel:+79968837063" class="tg-btn" style="background: #0f2540;">📞 +7 996 883 70 63</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>
+    © 2026 <strong>бюро «Диалектика»</strong> &nbsp;·&nbsp;
+    Менеджер заказов: <a href="https://max.ru/u/f9LHodD0cOIrZoVpHY4xYdRMWWNu2HBZ93ib4BNZ4EzwnU7XX3Ul5AVIMlI">MAX</a> · <a href="https://t.me/Ignat_ki">TG</a> · <a href="tel:+79968837063">+7 996 883 70 63</a>
+  </p>
+</footer>
+
+</body>
+</html>
