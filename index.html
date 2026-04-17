@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: Arial, sans-serif;
+    font-size: 10pt;
+    color: #1a1a2e;
+    background: #dde3eb;
+  }
+
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    background: #fff;
+    margin: 20px auto;
+    padding: 0;
+    box-shadow: 0 4px 28px rgba(0,0,0,0.15);
+    page-break-after: always;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .page:last-child { page-break-after: auto; }
+
+  @media print {
+    body { background: #fff; }
+    .page { margin: 0; box-shadow: none; }
+  }
+
+  /* ===== COVER ===== */
+  .cover {
+    flex: 1;
+    background: linear-gradient(145deg, #0f2540 0%, #1a4a8a 50%, #1066c0 100%);
+    padding: 50px 52px 42px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: -80px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.05);
+  }
+  /* building silhouette */
+  .cover-buildings {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 110px;
+    opacity: 0.07;
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    padding: 0 10px;
+  }
+  .bld { background: #fff; border-radius: 2px 2px 0 0; }
+
+  .cover-top { position: relative; z-index:2; display:flex; justify-content:space-between; align-items:flex-start; }
+  .cover-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #fff;
+    padding: 6px 16px;
+    border-radius: 24px;
+    font-size: 7.5pt;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  .cover-year { color: rgba(255,255,255,0.5); font-size: 8pt; font-weight: 600; letter-spacing: 2px; }
+
+  .cover-body { flex:1; display:flex; flex-direction:column; justify-content:center; padding:44px 0 20px; position:relative; z-index:2; }
+  .cover-icon { font-size: 38pt; margin-bottom: 18px; }
+  .cover-title {
+    color: #fff;
+    font-size: 38pt;
+    font-weight: 900;
+    line-height: 1.07;
+    margin-bottom: 18px;
+    letter-spacing: -0.5px;
+  }
+  .cover-title span { color: #64b8ff; }
+  .cover-subtitle {
+    color: rgba(255,255,255,0.78);
+    font-size: 11.5pt;
+    line-height: 1.8;
+    max-width: 480px;
+  }
+
+  .cover-pills { display:flex; gap:10px; margin-top:28px; flex-wrap:wrap; position:relative; z-index:2; }
+  .pill {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.9);
+    padding: 5px 14px;
+    border-radius: 20px;
+    font-size: 8pt;
+    font-weight: 600;
+  }
+
+  .cover-footer {
+    display: flex;
+    gap: 28px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255,255,255,0.15);
+    flex-wrap: wrap;
+    position: relative; z-index:2;
+  }
+  .cm { color: rgba(255,255,255,0.6); font-size: 8pt; }
+  .cm strong { display: block; color: #fff; font-size: 9pt; margin-bottom: 2px; }
+
+  /* ===== SECTION HEAD ===== */
+  .sec-head {
+    background: linear-gradient(90deg, #0f2540, #1a4a8a);
+    padding: 9px 28px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sec-num {
+    background: rgba(255,255,255,0.15);
+    color: #fff;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    font-weight: 900;
+    font-size: 8pt;
+    display: flex; align-items:center; justify-content:center;
+    flex-shrink: 0;
+  }
+  .sec-title { color: #fff; font-size: 11.5pt; font-weight: 700; }
+  .sec-sub { color: rgba(255,255,255,0.65); font-size: 8.5pt; margin-left: auto; }
+
+  .sec-body { padding: 16px 28px 18px; }
+
+  p { line-height: 1.65; color: #333; margin-bottom: 10px; font-size: 9.5pt; }
+  h3 { font-size: 10pt; font-weight: 700; color: #1a4a8a; margin: 14px 0 6px; }
+  ul { padding-left: 18px; margin-bottom: 10px; }
+  li { font-size: 9pt; color: #333; line-height: 1.65; margin-bottom: 3px; }
+
+  /* ===== PAIN CARDS ===== */
+  .pain-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:8px 0; }
+  .pain-card {
+    background: #f5f7fc;
+    border-left: 3px solid #e04040;
+    border-radius: 0 8px 8px 0;
+    padding: 12px 14px;
+  }
+  .pain-card .pain-icon { font-size: 18pt; margin-bottom: 6px; }
+  .pain-card .pain-title { font-size: 8.5pt; font-weight: 700; color: #c03030; margin-bottom: 4px; }
+  .pain-card .pain-text { font-size: 8pt; color: #555; line-height: 1.5; }
+
+  /* ===== OPPORTUNITY BANNER ===== */
+  .opp-banner {
+    background: linear-gradient(90deg, #1066c0, #1a4a8a);
+    border-radius: 10px;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 14px 0;
+  }
+  .opp-icon { font-size: 22pt; flex-shrink:0; }
+  .opp-text { color: #fff; font-size: 9pt; line-height: 1.6; }
+  .opp-text strong { font-size: 10.5pt; display:block; margin-bottom:3px; }
+
+  /* ===== SOLUTION BLOCKS ===== */
+  .sol-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:8px 0; }
+  .sol-card {
+    border-radius: 10px;
+    padding: 14px 16px;
+    background: #f0f6ff;
+    border: 1px solid #d0e4ff;
+  }
+  .sol-card .sol-top { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+  .sol-card .sol-icon { font-size: 16pt; }
+  .sol-card .sol-title { font-size: 9.5pt; font-weight: 700; color: #0f2540; }
+  .sol-card .sol-tag { font-size: 7pt; background: #1066c0; color:#fff; padding:2px 8px; border-radius:10px; margin-left:auto; }
+  .sol-card ul { padding-left:14px; margin:0; }
+  .sol-card li { font-size: 8.5pt; color: #333; line-height: 1.55; }
+
+  /* ===== PHONE MOCKUP ===== */
+  .mockup-row { display:flex; gap:16px; margin:8px 0; align-items:flex-start; }
+  .phone-wrap { flex-shrink:0; }
+  .phone {
+    width: 130px;
+    background: #1a1a2e;
+    border-radius: 20px;
+    padding: 10px 6px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    position: relative;
+  }
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 5px; left: 50%;
+    transform: translateX(-50%);
+    width: 30px; height: 4px;
+    background: #333;
+    border-radius: 2px;
+  }
+  .phone-screen {
+    background: #0a0e1a;
+    border-radius: 14px;
+    padding: 18px 6px 8px;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .phone-header {
+    background: #1a4a8a;
+    border-radius: 8px;
+    padding: 6px 8px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .phone-avatar {
+    width: 20px; height: 20px;
+    background: #64b8ff;
+    border-radius: 50%;
+    display: flex; align-items:center; justify-content:center;
+    font-size: 9pt;
+    flex-shrink:0;
+  }
+  .phone-header-text .pht { font-size: 7pt; color:#fff; font-weight:700; }
+  .phone-header-text .phs { font-size: 6pt; color:rgba(255,255,255,0.6); }
+
+  .msg { padding: 5px 8px; border-radius: 8px; max-width: 90%; font-size: 7pt; line-height: 1.4; }
+  .msg.bot { background: #1e3560; color: rgba(255,255,255,0.9); align-self:flex-start; border-bottom-left-radius:2px; }
+  .msg.user { background: #2a6e3a; color: rgba(255,255,255,0.9); align-self:flex-end; border-bottom-right-radius:2px; margin-left:auto; }
+  .msg-time { font-size: 5.5pt; color: rgba(255,255,255,0.45); text-align:right; margin-top:2px; }
+
+  .mockup-info { flex:1; }
+  .mockup-info h3 { margin-top:0; }
+  .stat-row { display:flex; gap:8px; margin:10px 0; }
+  .stat-box {
+    flex:1;
+    background: linear-gradient(135deg, #1066c0, #1a4a8a);
+    border-radius: 8px;
+    padding: 10px 12px;
+    text-align: center;
+    color: #fff;
+  }
+  .stat-box .sn { font-size: 18pt; font-weight: 900; line-height: 1; }
+  .stat-box .sl { font-size: 7pt; opacity: 0.75; margin-top: 2px; }
+
+  /* ===== DASHBOARD MOCKUP ===== */
+  .dashboard {
+    background: #0f1929;
+    border-radius: 12px;
+    padding: 10px;
+    margin: 10px 0;
+  }
+  .dash-topbar { display:flex; align-items:center; gap:6px; margin-bottom:8px; }
+  .dash-dot { width:8px; height:8px; border-radius:50%; }
+  .dash-title { color:rgba(255,255,255,0.7); font-size:7pt; margin-left:4px; }
+
+  .dash-grid { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:6px; margin-bottom:8px; }
+  .dash-kpi { background:#1a2840; border-radius:6px; padding:8px 10px; }
+  .dash-kpi .dk-val { font-size:14pt; font-weight:900; color:#64b8ff; line-height:1; }
+  .dash-kpi .dk-lbl { font-size:6pt; color:rgba(255,255,255,0.5); margin-top:2px; }
+  .dash-kpi .dk-delta { font-size:6.5pt; color:#3dd68c; margin-top:1px; }
+
+  .dash-charts { display:grid; grid-template-columns:1.4fr 1fr; gap:6px; }
+  .dash-chart { background:#1a2840; border-radius:6px; padding:8px 10px; }
+  .dash-chart-title { font-size:6.5pt; color:rgba(255,255,255,0.6); margin-bottom:6px; }
+
+  .bar-chart { display:flex; align-items:flex-end; gap:4px; height:50px; }
+  .bar { flex:1; border-radius:2px 2px 0 0; min-width:6px; }
+
+  .pie-area { display:flex; gap:8px; align-items:center; margin-top:4px; }
+  .pie-svg-wrap { flex-shrink:0; }
+  .pie-legend { display:flex; flex-direction:column; gap:4px; }
+  .ple { display:flex; align-items:center; gap:4px; }
+  .ple-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+  .ple-txt { font-size:5.5pt; color:rgba(255,255,255,0.65); }
+
+  /* ===== COMPLIANCE ===== */
+  .comp-row { display:flex; gap:10px; margin:8px 0; }
+  .comp-card {
+    flex:1;
+    border-radius:10px;
+    padding:14px 16px;
+    background:#fff;
+    border:1px solid #e0e8f0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .comp-card .cc-icon { font-size:20pt; margin-bottom:8px; }
+  .comp-card .cc-title { font-size:9.5pt; font-weight:700; color:#0f2540; margin-bottom:6px; }
+  .comp-card ul { padding-left:14px; margin:0; }
+  .comp-card li { font-size:8pt; color:#444; line-height:1.55; }
+  .law-badge {
+    display:inline-block;
+    background:#fff3cd;
+    border:1px solid #ffc107;
+    color:#8a6200;
+    font-size:7pt;
+    font-weight:700;
+    padding:2px 10px;
+    border-radius:10px;
+    margin-top:6px;
+  }
+
+  /* ===== PRICING ===== */
+  .price-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:10px 0; }
+  .price-card {
+    border-radius:12px;
+    border:1px solid #d0e4ff;
+    padding:18px 16px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    background:#f9fbff;
+  }
+  .price-card.featured {
+    background:linear-gradient(160deg, #0f2540, #1a4a8a);
+    border:none;
+    color:#fff;
+    box-shadow: 0 6px 20px rgba(16,102,192,0.3);
+    position:relative;
+  }
+  .price-badge {
+    position:absolute;
+    top:-10px; right:14px;
+    background:#ffb700;
+    color:#222;
+    font-size:7pt;
+    font-weight:700;
+    padding:3px 12px;
+    border-radius:10px;
+  }
+  .pc-title { font-size:10pt; font-weight:700; }
+  .price-card .pc-title { color:#0f2540; }
+  .price-card.featured .pc-title { color:#fff; }
+  .pc-price { font-size:20pt; font-weight:900; line-height:1; }
+  .price-card .pc-price { color:#1066c0; }
+  .price-card.featured .pc-price { color:#64b8ff; }
+  .pc-period { font-size:7.5pt; opacity:0.6; margin-top:2px; }
+  .pc-divider { height:1px; background:rgba(0,0,0,0.08); }
+  .price-card.featured .pc-divider { background:rgba(255,255,255,0.15); }
+  .pc-list { display:flex; flex-direction:column; gap:5px; flex:1; }
+  .pc-item { font-size:8pt; display:flex; gap:6px; align-items:flex-start; line-height:1.4; }
+  .pc-item::before { content:'✓'; font-weight:900; flex-shrink:0; }
+  .price-card .pc-item { color:#333; }
+  .price-card .pc-item::before { color:#1066c0; }
+  .price-card.featured .pc-item { color:rgba(255,255,255,0.85); }
+  .price-card.featured .pc-item::before { color:#64b8ff; }
+  .pc-cta {
+    text-align:center;
+    padding:7px;
+    border-radius:8px;
+    font-size:8.5pt;
+    font-weight:700;
+    cursor:default;
+  }
+  .price-card .pc-cta { background:#e8f0ff; color:#1a4a8a; }
+  .price-card.featured .pc-cta { background:rgba(255,255,255,0.15); color:#fff; }
+
+  .roi-banner {
+    background:linear-gradient(90deg, #0f3a1a, #1a6a30);
+    border-radius:10px;
+    padding:14px 20px;
+    display:flex;
+    gap:24px;
+    margin:14px 0;
+    align-items:center;
+  }
+  .roi-item { text-align:center; flex:1; }
+  .roi-val { font-size:22pt; font-weight:900; color:#4ade80; line-height:1; }
+  .roi-lbl { font-size:7.5pt; color:rgba(255,255,255,0.7); margin-top:3px; }
+  .roi-divider { width:1px; background:rgba(255,255,255,0.15); align-self:stretch; }
+
+  /* ===== CONTACTS ===== */
+  .contact-block {
+    background: linear-gradient(135deg, #0f2540, #1a4a8a);
+    border-radius:12px;
+    padding:20px 24px;
+    display:flex;
+    gap:20px;
+    margin:10px 0;
+    align-items:center;
+  }
+  .contact-avatar {
+    width:60px; height:60px;
+    background:rgba(255,255,255,0.12);
+    border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size:26pt;
+    flex-shrink:0;
+  }
+  .contact-info .ci-name { font-size:13pt; font-weight:700; color:#fff; }
+  .contact-info .ci-role { font-size:8.5pt; color:rgba(255,255,255,0.6); margin-bottom:10px; }
+  .contact-line { font-size:9pt; color:rgba(255,255,255,0.85); margin:3px 0; }
+  .contact-line strong { color:#64b8ff; }
+
+  .next-steps { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:8px; margin:12px 0; }
+  .ns-item {
+    background:#f5f7fc;
+    border-radius:8px;
+    padding:12px 12px;
+    text-align:center;
+    border-top:3px solid #1066c0;
+  }
+  .ns-num { font-size:18pt; font-weight:900; color:#d0e0ff; line-height:1; }
+  .ns-txt { font-size:8pt; color:#444; margin-top:4px; line-height:1.4; }
+
+  /* ===== DIVIDER ===== */
+  .divider { height:1px; background:#eef2f8; margin:4px 0; }
+
+  /* ===== HIGHLIGHT ===== */
+  .highlight {
+    background:#e8f4ff;
+    border-left:3px solid #1066c0;
+    border-radius:0 8px 8px 0;
+    padding:10px 14px;
+    margin:10px 0;
+    font-size:9pt;
+    color:#1a2a4a;
+    line-height:1.6;
+  }
+</style>
+</head>
+<body>
+
+<!-- ======== PAGE 1: COVER ======== -->
+<div class="page">
+  <div class="cover">
+    <div class="cover-buildings">
+      <div class="bld" style="width:30px;height:60px"></div>
+      <div class="bld" style="width:20px;height:40px"></div>
+      <div class="bld" style="width:40px;height:85px"></div>
+      <div class="bld" style="width:25px;height:55px"></div>
+      <div class="bld" style="width:50px;height:100px"></div>
+      <div class="bld" style="width:30px;height:70px"></div>
+      <div class="bld" style="width:20px;height:45px"></div>
+      <div class="bld" style="width:45px;height:90px"></div>
+      <div class="bld" style="width:35px;height:65px"></div>
+      <div class="bld" style="width:25px;height:50px"></div>
+      <div class="bld" style="width:40px;height:80px"></div>
+      <div class="bld" style="width:30px;height:55px"></div>
+      <div class="bld" style="width:50px;height:95px"></div>
+      <div class="bld" style="width:20px;height:40px"></div>
+    </div>
+    <div class="cover-top">
+      <div class="cover-badge">AIM Foundation · 2026</div>
+      <div class="cover-year">AI для ЖКХ</div>
+    </div>
+    <div class="cover-body">
+      <div class="cover-icon">🏢</div>
+      <div class="cover-title">
+        Цифровой помощник<br>для <span>управляющей<br>компании</span>
+      </div>
+      <div class="cover-subtitle">
+        Автоматизируем общение с жителями, отчётность и аналитику инфраструктуры
+        с помощью искусственного интеллекта
+      </div>
+    </div>
+    <div class="cover-pills">
+      <div class="pill">🤖 Голосовой бот</div>
+      <div class="pill">💬 Чат-бот 24/7</div>
+      <div class="pill">📊 ГИС ЖКХ автоматически</div>
+      <div class="pill">⚡ Предиктивная аналитика</div>
+      <div class="pill">💰 ROI &lt; 12 месяцев</div>
+    </div>
+    <div class="cover-footer">
+      <div class="cm"><strong>Кирилл Игнатьев</strong>AIM Foundation</div>
+      <div class="cm"><strong>Целевая аудитория</strong>Управляющие компании ЖКХ</div>
+      <div class="cm"><strong>Апрель 2026</strong>Коммерческое предложение</div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== PAGE 2: ПРОБЛЕМЫ + РЕШЕНИЕ ======== -->
+<div class="page">
+  <div class="sec-head">
+    <div class="sec-num">1</div>
+    <div class="sec-title">Боли управляющих компаний</div>
+    <div class="sec-sub">Почему УК теряют деньги и репутацию</div>
+  </div>
+  <div class="sec-body">
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-icon">📞</div>
+        <div class="pain-title">Перегрузка диспетчеров</div>
+        <div class="pain-text">80% звонков — типовые вопросы: тарифы, сроки, показания счётчиков. Операторы тонут в рутине вместо решения реальных проблем.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">📋</div>
+        <div class="pain-title">Отчётность вручную</div>
+        <div class="pain-text">Выгрузка данных в ГИС ЖКХ отнимает часы работы. Ошибки ручного ввода → штрафы надзорных органов.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🚨</div>
+        <div class="pain-title">Аварии — сюрприз</div>
+        <div class="pain-text">Порывы и поломки обнаруживаются постфактум. Экстренный ремонт в 3–5× дороже планового обслуживания.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">💸</div>
+        <div class="pain-title">Задолженности растут</div>
+        <div class="pain-text">Нет разделения должников на «забывчивых» и «злостных» — единая стратегия взыскания неэффективна.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">💬</div>
+        <div class="pain-title">Жалобы в домчатах</div>
+        <div class="pain-text">С 2026 года — обязательный ответ на обращения жителей в домовых чатах. Без автоматизации это невозможно при сотнях домов.</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">📉</div>
+        <div class="pain-title">НДС и налоги</div>
+        <div class="pain-text">Изменения налогового законодательства сжимают маржу. УК вынуждены сокращать издержки без потери качества.</div>
+      </div>
+    </div>
+
+    <div class="opp-banner">
+      <div class="opp-icon">💡</div>
+      <div class="opp-text">
+        <strong>Искусственный интеллект решает эти задачи уже сегодня</strong>
+        На заседании Общественной палаты РБ (5 февраля 2026) несколько спикеров отметили: внедрение ИИ в ЖКХ —
+        это не будущее, это необходимость. Те, кто начнёт сейчас, получат конкурентное преимущество на годы вперёд.
+      </div>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div class="sec-num">2</div>
+    <div class="sec-title">Что мы автоматизируем</div>
+    <div class="sec-sub">Четыре направления — один продукт</div>
+  </div>
+  <div class="sec-body">
+    <div class="sol-grid">
+      <div class="sol-card">
+        <div class="sol-top">
+          <div class="sol-icon">🤖</div>
+          <div class="sol-title">Коммуникация с жителями</div>
+          <div class="sol-tag">Популярное</div>
+        </div>
+        <ul>
+          <li>Голосовой бот обрабатывает до <strong>80% входящих звонков</strong></li>
+          <li>Чат-бот в Telegram/VK отвечает 24/7 без выходных</li>
+          <li>Автоответы в домовых чатах (требование 2026 года)</li>
+          <li>Автогенерация объявлений об отключениях</li>
+        </ul>
+      </div>
+      <div class="sol-card">
+        <div class="sol-top">
+          <div class="sol-icon">⚙️</div>
+          <div class="sol-title">Интеллектуальная эксплуатация</div>
+        </div>
+        <ul>
+          <li>Предиктивная аналитика: прогноз аварий по данным датчиков</li>
+          <li>Снижение затрат на экстренные ремонты <strong>до 5%</strong></li>
+          <li>ИИ-планирование графиков дежурств персонала</li>
+          <li>Оптимизация нагрузки мастеров по сезону</li>
+        </ul>
+      </div>
+      <div class="sol-card">
+        <div class="sol-top">
+          <div class="sol-icon">💰</div>
+          <div class="sol-title">Экономическая эффективность</div>
+        </div>
+        <ul>
+          <li>Скоринг должников: «забывчивые» vs «злостные»</li>
+          <li>Оптимальная стратегия коммуникации для каждого типа</li>
+          <li>Контроль КР на СОИ — выявление несанкционированных подключений</li>
+          <li>Анализ разницы общедомовых и квартирных счётчиков</li>
+        </ul>
+      </div>
+      <div class="sol-card">
+        <div class="sol-top">
+          <div class="sol-icon">📊</div>
+          <div class="sol-title">Соблюдение нормативов</div>
+          <div class="sol-tag">Compliance</div>
+        </div>
+        <ul>
+          <li>Автоматическая выгрузка в <strong>ГИС ЖКХ</strong> без ошибок</li>
+          <li>Исключение штрафов за ручной ввод данных</li>
+          <li>Формирование актов и отчётов за минуты</li>
+          <li>Мониторинг сроков исполнения обращений</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== PAGE 3: ДЕМО ЧАТ-БОТА ======== -->
+<div class="page">
+  <div class="sec-head">
+    <div class="sec-num">3</div>
+    <div class="sec-title">Чат-бот для жителей — как это работает</div>
+    <div class="sec-sub">Диалог на основе ИИ + база знаний ЖКХ</div>
+  </div>
+  <div class="sec-body">
+    <div class="mockup-row">
+      <div class="phone-wrap">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="phone-header">
+              <div class="phone-avatar">🏢</div>
+              <div class="phone-header-text">
+                <div class="pht">УК «Ваш Дом»</div>
+                <div class="phs">🟢 онлайн · ИИ-ассистент</div>
+              </div>
+            </div>
+            <div class="msg bot">Здравствуйте! Я ИИ-ассистент вашей УК. Чем могу помочь?
+              <div class="msg-time">09:14</div>
+            </div>
+            <div class="msg user">Почему такая большая квитанция в декабре?
+              <div class="msg-time">09:15</div>
+            </div>
+            <div class="msg bot">В декабре произведён перерасчёт за отопление по факту потребления за 2024 год согласно ПП №354. Разница добавлена к текущей квитанции.
+              <div class="msg-time">09:15</div>
+            </div>
+            <div class="msg user">А как передать показания счётчика?
+              <div class="msg-time">09:16</div>
+            </div>
+            <div class="msg bot">Показания принимаем с 15 по 25 число каждого месяца через это приложение или по номеру 347-200-12-10.
+              <div class="msg-time">09:16</div>
+            </div>
+            <div class="msg user">Когда будет горячая вода?
+              <div class="msg-time">09:17</div>
+            </div>
+            <div class="msg bot">Плановое отключение ГВС: 18–22 апреля. Ваш адрес входит в первую очередь подключения. 🔧
+              <div class="msg-time">09:17</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mockup-info">
+        <h3>Что умеет бот</h3>
+        <ul>
+          <li>Отвечает на вопросы по <strong>ЖК РФ, ПП №354</strong> и тарифам вашего региона</li>
+          <li>Знает <strong>регламенты и процедуры</strong> вашей УК</li>
+          <li>Принимает <strong>заявки на ремонт</strong> и передаёт мастеру</li>
+          <li>Информирует об <strong>отключениях и плановых работах</strong></li>
+          <li>Публикует ответы в <strong>домовых чатах</strong> автоматически</li>
+          <li>Работает в Telegram, VK, MAX и на сайте</li>
+        </ul>
+
+        <div class="stat-row">
+          <div class="stat-box">
+            <div class="sn">80%</div>
+            <div class="sl">обращений без оператора</div>
+          </div>
+          <div class="stat-box">
+            <div class="sn">24/7</div>
+            <div class="sl">без выходных и праздников</div>
+          </div>
+          <div class="stat-box">
+            <div class="sn">&lt;5с</div>
+            <div class="sl">время ответа на вопрос</div>
+          </div>
+        </div>
+
+        <div class="highlight">
+          <strong>Обязательное требование с 2026 года:</strong> УК обязаны отвечать на обращения жителей
+          в официальных домовых чатах. Бот делает это автоматически — без
+          найма дополнительных операторов.
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Dashboard mockup -->
+    <h3 style="margin:12px 0 8px;">Аналитический дашборд УК</h3>
+    <div class="dashboard">
+      <div class="dash-topbar">
+        <div class="dash-dot" style="background:#ff5f57"></div>
+        <div class="dash-dot" style="background:#ffbd2e"></div>
+        <div class="dash-dot" style="background:#28c840"></div>
+        <div class="dash-title">УК «Ваш Дом» — Аналитика обращений · Апрель 2026</div>
+      </div>
+      <div class="dash-grid">
+        <div class="dash-kpi">
+          <div class="dk-val">1 247</div>
+          <div class="dk-lbl">обращений за месяц</div>
+          <div class="dk-delta">↑ +12% к марту</div>
+        </div>
+        <div class="dash-kpi">
+          <div class="dk-val">83%</div>
+          <div class="dk-lbl">закрыто ботом</div>
+          <div class="dk-delta">↑ +5% к марту</div>
+        </div>
+        <div class="dash-kpi">
+          <div class="dk-val">214</div>
+          <div class="dk-lbl">заявок на ремонт</div>
+          <div class="dk-delta">↓ −8% к марту</div>
+        </div>
+        <div class="dash-kpi">
+          <div class="dk-val">4.7★</div>
+          <div class="dk-lbl">оценка жителей</div>
+          <div class="dk-delta">↑ +0.3 к марту</div>
+        </div>
+      </div>
+      <div class="dash-charts">
+        <div class="dash-chart">
+          <div class="dash-chart-title">Обращения по неделям</div>
+          <div class="bar-chart">
+            <div class="bar" style="height:60%;background:#1a6ac0;"></div>
+            <div class="bar" style="height:75%;background:#1a6ac0;"></div>
+            <div class="bar" style="height:50%;background:#1a6ac0;"></div>
+            <div class="bar" style="height:90%;background:#1a6ac0;"></div>
+            <div class="bar" style="height:70%;background:#1a6ac0;"></div>
+            <div class="bar" style="height:85%;background:#2a8adf;"></div>
+            <div class="bar" style="height:100%;background:#64b8ff;"></div>
+            <div class="bar" style="height:80%;background:#64b8ff;"></div>
+          </div>
+        </div>
+        <div class="dash-chart">
+          <div class="dash-chart-title">Типы обращений</div>
+          <div class="pie-area">
+            <div class="pie-svg-wrap">
+              <svg width="52" height="52" viewBox="0 0 52 52">
+                <circle cx="26" cy="26" r="20" fill="none" stroke="#2a5a9a" stroke-width="12"/>
+                <circle cx="26" cy="26" r="20" fill="none" stroke="#64b8ff" stroke-width="12"
+                  stroke-dasharray="50 76" stroke-dashoffset="-10"/>
+                <circle cx="26" cy="26" r="20" fill="none" stroke="#3dd68c" stroke-width="12"
+                  stroke-dasharray="20 106" stroke-dashoffset="-60"/>
+                <circle cx="26" cy="26" r="20" fill="none" stroke="#ffb700" stroke-width="12"
+                  stroke-dasharray="10 116" stroke-dashoffset="-80"/>
+              </svg>
+            </div>
+            <div class="pie-legend">
+              <div class="ple"><div class="ple-dot" style="background:#2a5a9a"></div><div class="ple-txt">Тарифы/оплата — 40%</div></div>
+              <div class="ple"><div class="ple-dot" style="background:#64b8ff"></div><div class="ple-txt">Ремонт/заявки — 32%</div></div>
+              <div class="ple"><div class="ple-dot" style="background:#3dd68c"></div><div class="ple-txt">Отключения — 16%</div></div>
+              <div class="ple"><div class="ple-dot" style="background:#ffb700"></div><div class="ple-txt">Прочее — 12%</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======== PAGE 4: ЦЕНЫ + ROI ======== -->
+<div class="page">
+  <div class="sec-head">
+    <div class="sec-num">4</div>
+    <div class="sec-title">Стоимость и окупаемость</div>
+    <div class="sec-sub">Прозрачное ценообразование</div>
+  </div>
+  <div class="sec-body">
+    <div class="price-grid">
+      <div class="price-card">
+        <div class="pc-title">🚀 Демо / MVP</div>
+        <div class="pc-price">40–70K</div>
+        <div class="pc-period">₽ · разовый запуск</div>
+        <div class="pc-divider"></div>
+        <div class="pc-list">
+          <div class="pc-item">Бот в Telegram/MAX (базовые сценарии)</div>
+          <div class="pc-item">RAG-система: 50–100 документов ЖКХ</div>
+          <div class="pc-item">GigaChat Lite (ЖКХ-промпты)</div>
+          <div class="pc-item">VPS-сервер на 1 месяц</div>
+          <div class="pc-item">Тестирование на реальных вопросах</div>
+        </div>
+        <div class="pc-cta">Попробовать</div>
+      </div>
+
+      <div class="price-card featured">
+        <div class="price-badge">⭐ Рекомендуем</div>
+        <div class="pc-title">🏢 Под ключ</div>
+        <div class="pc-price">200–380K</div>
+        <div class="pc-period">₽ · запуск + 37–58K ₽/мес</div>
+        <div class="pc-divider"></div>
+        <div class="pc-list">
+          <div class="pc-item">Голосовой бот + чат-бот 24/7</div>
+          <div class="pc-item">База знаний по законам и регламентам УК</div>
+          <div class="pc-item">Интеграция с учётной системой</div>
+          <div class="pc-item">Автоответы в домовых чатах</div>
+          <div class="pc-item">Аналитический дашборд</div>
+          <div class="pc-item">Поддержка и обновления</div>
+        </div>
+        <div class="pc-cta">Обсудить</div>
+      </div>
+
+      <div class="price-card">
+        <div class="pc-title">⚡ Расширенный</div>
+        <div class="pc-price">от 500K</div>
+        <div class="pc-period">₽ · под задачи компании</div>
+        <div class="pc-divider"></div>
+        <div class="pc-list">
+          <div class="pc-item">Всё из «Под ключ»</div>
+          <div class="pc-item">Предиктивная аналитика аварий</div>
+          <div class="pc-item">Скоринг должников</div>
+          <div class="pc-item">Автовыгрузка в ГИС ЖКХ</div>
+          <div class="pc-item">Контроль КР на СОИ</div>
+          <div class="pc-item">Планирование графиков персонала</div>
+        </div>
+        <div class="pc-cta">Рассчитать</div>
+      </div>
+    </div>
+
+    <div class="roi-banner">
+      <div class="roi-item">
+        <div class="roi-val">150–300K</div>
+        <div class="roi-lbl">₽/мес экономия на операторах<br>(при 500–1000 обращений/день)</div>
+      </div>
+      <div class="roi-divider"></div>
+      <div class="roi-item">
+        <div class="roi-val">&lt;12</div>
+        <div class="roi-lbl">месяцев до полной<br>окупаемости</div>
+      </div>
+      <div class="roi-divider"></div>
+      <div class="roi-item">
+        <div class="roi-val">−5%</div>
+        <div class="roi-lbl">затрат на экстренные<br>ремонты инфраструктуры</div>
+      </div>
+      <div class="roi-divider"></div>
+      <div class="roi-item">
+        <div class="roi-val">0</div>
+        <div class="roi-lbl">штрафов за ГИС ЖКХ<br>при автовыгрузке</div>
+      </div>
+    </div>
+
+    <div class="highlight">
+      <strong>Пример для УК с 99 домами и ~300 000 жителями:</strong> При нагрузке 700 обращений в день бот снимает
+      ~560 звонков с диспетчеров. Экономия на операторах — <strong>200 000 ₽/мес</strong>.
+      Инвестиция в запуск «под ключ» — 280 000 ₽. Окупаемость — <strong>1,5 месяца.</strong>
+    </div>
+  </div>
+
+  <div class="sec-head">
+    <div class="sec-num">5</div>
+    <div class="sec-title">Следующие шаги</div>
+  </div>
+  <div class="sec-body">
+    <div class="next-steps">
+      <div class="ns-item">
+        <div class="ns-num">01</div>
+        <div class="ns-txt">Короткий ВКС: обсуждаем задачи вашей УК</div>
+      </div>
+      <div class="ns-item">
+        <div class="ns-num">02</div>
+        <div class="ns-txt">Демонстрация MVP на реальных вопросах жителей</div>
+      </div>
+      <div class="ns-item">
+        <div class="ns-num">03</div>
+        <div class="ns-txt">Пилот на 1–2 домах: тестируем бота вживую</div>
+      </div>
+      <div class="ns-item">
+        <div class="ns-num">04</div>
+        <div class="ns-txt">Масштабирование на весь жилой фонд</div>
+      </div>
+    </div>
+
+    <div class="contact-block">
+      <div class="contact-avatar">👨‍💼</div>
+      <div class="contact-info">
+        <div class="ci-name">Кирилл Игнатьев</div>
+        <div class="ci-role">AIM Foundation · ИИ-решения для бизнеса</div>
+        <div class="contact-line">📱 <strong>+7 (XXX) XXX-XX-XX</strong></div>
+        <div class="contact-line">✉️ <strong>Telegram: @Ignat_ki</strong></div>
+        <div class="contact-line">🌐 <strong>AIM Foundation</strong> · ИИ-продукты для среднего бизнеса</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
