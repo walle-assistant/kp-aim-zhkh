@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Автоматизация ЖКХ с ИИ — AIM Foundation</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      color: #1a1a1a;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: rgba(255,255,255,.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid #e5e5e5;
+      padding: 16px 0;
+      z-index: 1000;
+      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto; padding: 0 24px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .nav-logo { font-size: 20px; font-weight: 800; color: #0f2540; }
+    .nav-links { display: flex; gap: 40px; }
+    .nav-links a { color: #333; text-decoration: none; font-size: 14px; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: #1066c0; }
+    .nav-cta {
+      background: #1066c0; color: white; padding: 10px 24px;
+      border-radius: 50px; font-size: 14px; font-weight: 600;
+      text-decoration: none; transition: all .2s;
+    }
+    .nav-cta:hover { background: #0f2540; }
+
+    /* HERO */
+    .hero {
+      margin-top: 60px;
+      background: linear-gradient(135deg, #0f2540 0%, #1a4a8a 50%, #1066c0 100%);
+      color: white;
+      padding: 100px 24px 120px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(circle at 20% 80%, rgba(100,184,255,.15) 0%, transparent 50%),
+                  radial-gradient(circle at 80% 20%, rgba(100,184,255,.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+    .hero-content { max-width: 800px; margin: 0 auto; position: relative; z-index: 1; }
+    .hero-badge {
+      display: inline-block; background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.3); color: white;
+      padding: 8px 20px; border-radius: 50px;
+      font-size: 12px; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 8vw, 72px);
+      font-weight: 900; line-height: 1.1;
+      margin-bottom: 20px; letter-spacing: -1px;
+    }
+    .hero h1 span { color: #64b8ff; }
+    .hero p {
+      font-size: 18px; opacity: .85;
+      margin-bottom: 40px; line-height: 1.6;
+    }
+    .hero-btns {
+      display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+      margin-bottom: 60px;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 32px; border-radius: 12px; font-size: 16px;
+      font-weight: 600; text-decoration: none;
+      transition: all .3s; border: none; cursor: pointer;
+    }
+    .btn-primary {
+      background: white; color: #0f2540;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(0,0,0,.2); }
+    .btn-secondary {
+      background: rgba(255,255,255,.15); color: white;
+      border: 1px solid rgba(255,255,255,.3);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,.25); }
+
+    .hero-stats {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px;
+      margin-top: 80px;
+    }
+    .stat { text-align: center; }
+    .stat-num { font-size: 44px; font-weight: 900; color: #64b8ff; line-height: 1; }
+    .stat-label { font-size: 13px; opacity: .7; margin-top: 8px; text-transform: uppercase; letter-spacing: .5px; }
+
+    section {
+      padding: 100px 24px;
+    }
+    .container { max-width: 1200px; margin: 0 auto; }
+    h2 { font-size: 48px; font-weight: 800; margin-bottom: 16px; }
+    .section-subtitle { font-size: 18px; color: #666; margin-bottom: 60px; max-width: 600px; }
+
+    /* PROBLEMS */
+    .problems {
+      background: #ffffff;
+    }
+    .problems h2 { color: #0f2540; }
+    .problems-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px;
+    }
+    .problem-card {
+      background: linear-gradient(135deg, #fff5f5, #ffebee);
+      border: 1px solid #ffcdd2;
+      padding: 32px; border-radius: 16px;
+      position: relative; overflow: hidden;
+    }
+    .problem-card::before {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 100px; height: 100px; background: rgba(220,38,38,.05);
+      border-radius: 50%; transform: translate(30%, -30%);
+    }
+    .problem-icon { font-size: 40px; margin-bottom: 16px; }
+    .problem-card h3 { font-size: 20px; font-weight: 700; color: #c41c00; margin-bottom: 12px; }
+    .problem-card p { font-size: 15px; color: #333; line-height: 1.65; position: relative; z-index: 1; }
+
+    /* SOLUTION */
+    .solution {
+      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+    }
+    .solution h2 { color: #0f2540; }
+    .features {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 32px;
+    }
+    @media (max-width: 768px) {
+      .features { grid-template-columns: 1fr; }
+    }
+    .feature {
+      display: flex; gap: 20px;
+    }
+    .feature-icon {
+      font-size: 36px; flex-shrink: 0; min-width: 60px;
+    }
+    .feature h3 { font-size: 20px; font-weight: 700; margin-bottom: 12px; color: #0f2540; }
+    .feature ul {
+      list-style: none; margin-top: 12px;
+    }
+    .feature li {
+      font-size: 14px; color: #555; padding: 6px 0 6px 24px;
+      position: relative;
+    }
+    .feature li::before {
+      content: '→'; position: absolute; left: 0; color: #1066c0; font-weight: 700;
+    }
+
+    /* DEMO */
+    .demo {
+      background: #0f2540;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+    .demo::after {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 500px; height: 500px; background: rgba(100,184,255,.05);
+      border-radius: 50%; pointer-events: none;
+    }
+    .demo h2 { color: white; }
+    .demo-container {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+    }
+    @media (max-width: 1024px) {
+      .demo-container { grid-template-columns: 1fr; }
+    }
+    .phone {
+      width: 240px; margin: 0 auto;
+      background: #1a1a2e; border-radius: 40px; padding: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.4);
+      position: relative;
+    }
+    .phone::before {
+      content: ''; position: absolute; top: 8px; left: 50%;
+      transform: translateX(-50%);
+      width: 60px; height: 6px; background: #333; border-radius: 3px;
+    }
+    .phone-screen {
+      background: #0d1117; border-radius: 28px;
+      padding: 20px 8px 8px;
+      display: flex; flex-direction: column; gap: 8px;
+      min-height: 400px;
+    }
+    .msg-header {
+      background: #1a4a8a; border-radius: 12px;
+      padding: 8px 10px; display: flex; gap: 8px;
+      margin-bottom: 8px;
+    }
+    .msg-avatar {
+      width: 32px; height: 32px; background: #64b8ff;
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-size: 14px; font-weight: 700;
+    }
+    .msg-meta { flex: 1; }
+    .msg-name { font-size: 11px; color: white; font-weight: 700; }
+    .msg-time { font-size: 9px; color: rgba(255,255,255,.5); }
+    .msg {
+      padding: 8px 10px; border-radius: 10px; font-size: 11px;
+      line-height: 1.5; max-width: 85%;
+    }
+    .msg-bot { background: #1e3a6e; color: rgba(255,255,255,.9); }
+    .msg-user { background: #14532d; color: rgba(255,255,255,.9); align-self: flex-end; }
+
+    .demo-text h3 { font-size: 28px; margin-bottom: 16px; color: white; }
+    .demo-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+      margin-top: 32px;
+    }
+    .demo-stat {
+      background: rgba(100,184,255,.15); border: 1px solid rgba(100,184,255,.3);
+      border-radius: 12px; padding: 20px; text-align: center;
+    }
+    .demo-stat-val { font-size: 32px; font-weight: 900; color: #64b8ff; line-height: 1; }
+    .demo-stat-label { font-size: 12px; opacity: .7; margin-top: 6px; }
+
+    /* PRICING */
+    .pricing {
+      background: linear-gradient(180deg, #ffffff, #f8fafc);
+    }
+    .pricing h2 { color: #0f2540; }
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+    }
+    @media (max-width: 1024px) {
+      .pricing-grid { grid-template-columns: 1fr; }
+    }
+    .price-card {
+      background: white; border: 1px solid #e0e0e0;
+      border-radius: 16px; padding: 40px 32px;
+      position: relative; transition: all .3s;
+    }
+    .price-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(16,102,192,.15);
+      border-color: #1066c0;
+    }
+    .price-card.featured {
+      border: 2px solid #1066c0;
+      background: linear-gradient(135deg, #f0f6ff, #ffffff);
+      position: relative;
+    }
+    .price-card.featured::before {
+      content: '⭐ ПОПУЛЯРНЫЙ';
+      position: absolute; top: -14px; left: 24px;
+      background: #1066c0; color: white;
+      padding: 4px 16px; border-radius: 20px;
+      font-size: 11px; font-weight: 700; letter-spacing: .5px;
+    }
+    .price-name { font-size: 18px; font-weight: 700; color: #0f2540; margin-bottom: 8px; }
+    .price { font-size: 48px; font-weight: 900; color: #1066c0; line-height: 1; margin: 16px 0; }
+    .price-period { font-size: 13px; color: #999; }
+    .price-list {
+      list-style: none; margin: 32px 0;
+    }
+    .price-list li {
+      font-size: 14px; color: #555; padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+      position: relative; padding-left: 20px;
+    }
+    .price-list li::before {
+      content: '✓'; position: absolute; left: 0;
+      color: #1066c0; font-weight: 900;
+    }
+    .price-cta {
+      background: #1066c0; color: white;
+      padding: 14px 24px; border-radius: 12px;
+      display: block; text-align: center;
+      font-weight: 600; text-decoration: none;
+      transition: background .2s; border: none; cursor: pointer;
+    }
+    .price-cta:hover { background: #0f2540; }
+
+    /* ROI */
+    .roi {
+      background: linear-gradient(135deg, #0f3a1a, #1a6a30);
+      color: white; margin: 60px 0 0;
+      padding: 48px 32px;
+      border-radius: 20px;
+    }
+    .roi-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+      text-align: center;
+    }
+    @media (max-width: 768px) {
+      .roi-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .roi-item strong { display: block; font-size: 36px; font-weight: 900; margin-bottom: 6px; color: #4ade80; }
+    .roi-item span { font-size: 13px; opacity: .75; }
+
+    /* TEAM */
+    .team {
+      background: white;
+    }
+    .team h2 { color: #0f2540; }
+    .team-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 32px;
+    }
+    .team-card {
+      background: linear-gradient(135deg, #0f2540, #1a4a8a);
+      color: white; padding: 44px; border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(16,102,192,.15);
+    }
+    .team-role { font-size: 11px; font-weight: 800; text-transform: uppercase;
+      letter-spacing: 1.5px; color: #64b8ff; margin-bottom: 12px; }
+    .team-name { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+    .team-title { font-size: 14px; font-weight: 600; opacity: .7; margin-bottom: 16px; }
+    .team-desc { font-size: 14px; line-height: 1.7; opacity: .85; margin-bottom: 20px; }
+    .team-contact {
+      display: flex; align-items: center; gap: 10px;
+      background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2);
+      border-radius: 12px; padding: 12px 16px; margin-top: 12px;
+    }
+    .team-contact-icon { font-size: 18px; }
+    .team-contact-text { flex: 1; }
+    .team-contact-label { font-size: 10px; opacity: .7; }
+    .team-contact-value { font-size: 14px; font-weight: 700; }
+    .tg-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: #0088cc; color: white;
+      padding: 12px 24px; border-radius: 12px;
+      text-decoration: none; font-weight: 700;
+      font-size: 14px; margin-top: 16px;
+      transition: background .2s;
+    }
+    .tg-btn:hover { background: #006fa3; }
+
+    /* FOOTER */
+    footer {
+      background: #050f2e;
+      color: rgba(255,255,255,.5);
+      text-align: center; padding: 48px 24px;
+      font-size: 14px;
+    }
+    footer strong { color: rgba(255,255,255,.8); }
+
+    @media (max-width: 768px) {
+      nav { padding: 12px 0; }
+      .nav-links { display: none; }
+      h2 { font-size: 32px; }
+      .hero h1 { font-size: 36px; }
+      .hero-stats { grid-template-columns: 1fr; }
+      section { padding: 60px 24px; }
+      .demo-container { gap: 40px; }
+      .feature { flex-direction: column; }
+      .feature-icon { align-self: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="nav-logo">🏢 AIM для ЖКХ</div>
+    <div class="nav-links">
+      <a href="#решения">Решения</a>
+      <a href="#демо">Демо</a>
+      <a href="#цена">Цены</a>
+      <a href="#команда">Команда</a>
+    </div>
+    <a href="https://t.me/Ignat_ki" class="nav-cta" target="_blank">Полное портфолио</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">AIM Foundation · 2026</div>
+    <h1>Автоматизация<br><span>управляющей компании</span> с ИИ</h1>
+    <p>
+      Боты отвечают жителям 24/7, отчётность в ГИС ЖКХ автоматическая,
+      инфраструктура предсказана заранее. Окупаемость — 12 месяцев.
+    </p>
+    <div class="hero-btns">
+      <a href="https://t.me/Ignat_ki" class="btn btn-primary" target="_blank">
+        ✉️ Обсудить проект
+      </a>
+      <a href="#цена" class="btn btn-secondary">
+        💰 Посмотреть цены
+      </a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-num">80%</div>
+        <div class="stat-label">обращений без оператора</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">работа без выходных</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">−5%</div>
+        <div class="stat-label">затрат на экстренные ремонты</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLEMS -->
+<section class="problems">
+  <div class="container">
+    <h2>Почему УК теряют деньги</h2>
+    <p class="section-subtitle">Шесть системных проблем, которые давят на каждую управляющую компанию</p>
+    <div class="problems-grid">
+      <div class="problem-card">
+        <div class="problem-icon">📞</div>
+        <h3>Перегрузка диспетчеров</h3>
+        <p>80% звонков — типовые вопросы. Операторы тонут в рутине вместо решения реальных проблем.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">📋</div>
+        <h3>Отчётность вручную</h3>
+        <p>Выгрузка в ГИС ЖКХ отнимает часы. Ошибки → штрафы надзорных органов.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">🚨</div>
+        <h3>Аварии вразряд</h3>
+        <p>Порывы обнаруживаются постфактум. Экстренный ремонт стоит в 3–5× дороже планового.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">💸</div>
+        <h3>Задолженности растут</h3>
+        <p>Нет разделения должников. Единая стратегия взыскания неэффективна.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">💬</div>
+        <h3>Домовые чаты без ответов</h3>
+        <p>С 2026 года — обязательный ответ в домовых чатах. Невозможно без автоматизации.</p>
+      </div>
+      <div class="problem-card">
+        <div class="problem-icon">📉</div>
+        <h3>Давление налогов</h3>
+        <p>Изменения НДС сжимают маржу. Нужно сокращать издержки без потери качества.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOLUTION -->
+<section class="solution" id="решения">
+  <div class="container">
+    <h2>Что мы автоматизируем</h2>
+    <p class="section-subtitle">Четыре направления — один продукт</p>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🤖</div>
+        <div>
+          <h3>Коммуникация 24/7</h3>
+          <ul>
+            <li>Голосовой и чат-боты обрабатывают до 80% входящих обращений</li>
+            <li>Ответы по законам ЖКХ и тарифам</li>
+            <li>Приём заявок на ремонт</li>
+            <li>Автоответы в домовых чатах</li>
+            <li>Работает в Telegram, VK, MAX</li>
+          </ul>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">⚙️</div>
+        <div>
+          <h3>Предиктивная аналитика</h3>
+          <ul>
+            <li>ИИ предсказывает аварии и оптимизирует персонал</li>
+            <li>Прогноз порывов по датчикам</li>
+            <li>Снижение экстренных ремонтов до 5%</li>
+            <li>Оптимизация графиков дежурств</li>
+            <li>Контроль КР на СОИ</li>
+          </ul>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">💰</div>
+        <div>
+          <h3>Экономическая эффективность</h3>
+          <ul>
+            <li>Скоринг должников и контроль ресурсов</li>
+            <li>Разделение на «забывчивых» и «злостных»</li>
+            <li>Выявление несанкционированных подключений</li>
+            <li>Выявление скрытых утечек и краж ресурсов</li>
+            <li>Повышение собираемости платежей</li>
+          </ul>
+        </div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📊</div>
+        <div>
+          <h3>ГИС ЖКХ автоматически</h3>
+          <ul>
+            <li>Отчётность без ошибок и штрафов</li>
+            <li>Автовыгрузка данных в ГИС ЖКХ</li>
+            <li>Генерация актов и отчётов за секунды</li>
+            <li>Исключение штрафов надзорных органов</li>
+            <li>Мониторинг сроков исполнения</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section class="demo" id="демо">
+  <div class="container">
+    <h2 style="margin-bottom: 0;">Как это работает — демо</h2>
+    <p class="section-subtitle" style="color: rgba(255,255,255,.7);">Диалог на основе ИИ + база знаний по ЖКХ</p>
+    <div class="demo-container">
+      <div>
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="msg-header">
+              <div class="msg-avatar">🏢</div>
+              <div class="msg-meta">
+                <div class="msg-name">УК «Ваш Дом»</div>
+                <div class="msg-time">ИИ-ассистент онлайн</div>
+              </div>
+            </div>
+            <div class="msg msg-bot">Здравствуйте! Я ИИ-ассистент вашей УК. Чем помочь?</div>
+            <div class="msg msg-user">Почему большая квитанция в декабре?</div>
+            <div class="msg msg-bot">В декабре перерасчёт отопления по ПП №354. Разница в квитанции.</div>
+            <div class="msg msg-user">Как передать показания счётчика?</div>
+            <div class="msg msg-bot">С 15 по 25 число месяца в этом чате или по номеру 347-200-12-10.</div>
+            <div class="msg msg-user">Когда горячая вода?</div>
+            <div class="msg msg-bot">Плановое отключение ГВС: 18–22 апреля. Ваш адрес — первая очередь. 🔧</div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-text">
+        <h3>Бот обучен на законах и регламентах</h3>
+        <p>
+          ИИ знает ЖК РФ, ПП №354, региональные тарифы и регламент вашей конкретной УК.
+          Отвечает корректно — не придумывает. Передаёт сложные случаи живому оператору.
+        </p>
+        <div class="demo-stats">
+          <div class="demo-stat">
+            <div class="demo-stat-val">80%</div>
+            <div class="demo-stat-label">без оператора</div>
+          </div>
+          <div class="demo-stat">
+            <div class="demo-stat-val">24/7</div>
+            <div class="demo-stat-label">всегда онлайн</div>
+          </div>
+          <div class="demo-stat">
+            <div class="demo-stat-val">&lt;5с</div>
+            <div class="demo-stat-label">время ответа</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="цена">
+  <div class="container">
+    <h2>Прозрачное ценообразование</h2>
+    <p class="section-subtitle">Три варианта под разный масштаб — от пилота до полного внедрения</p>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="price-name">🚀 Демо / MVP</div>
+        <div class="price">40–70K<span style="font-size: 24px; color: #999;">₽</span></div>
+        <div class="price-period">разовый запуск</div>
+        <ul class="price-list">
+          <li>Бот в Telegram/MAX</li>
+          <li>RAG-система: 50–100 документов</li>
+          <li>GigaChat Lite интеграция</li>
+          <li>VPS-сервер на 1 месяц</li>
+          <li>Тестирование и правки</li>
+        </ul>
+        <a href="https://t.me/Ignat_ki" class="price-cta" target="_blank">Попробовать</a>
+      </div>
+      <div class="price-card featured">
+        <div class="price-name">🏢 Под ключ</div>
+        <div class="price">200–380K<span style="font-size: 24px; color: #1066c0;">₽</span></div>
+        <div class="price-period">запуск + 37–58K ₽/мес</div>
+        <ul class="price-list">
+          <li>Голосовой бот + чат-бот</li>
+          <li>База знаний по законам УК</li>
+          <li>Интеграция с учётной системой</li>
+          <li>Автоответы в домовых чатах</li>
+          <li>Аналитический дашборд</li>
+          <li>Поддержка и обновления</li>
+        </ul>
+        <a href="https://t.me/Ignat_ki" class="price-cta" target="_blank">Обсудить проект</a>
+      </div>
+      <div class="price-card">
+        <div class="price-name">⚡ Расширенный</div>
+        <div class="price">от 500K<span style="font-size: 24px; color: #999;">₽</span></div>
+        <div class="price-period">под задачи компании</div>
+        <ul class="price-list">
+          <li>Всё из «Под ключ»</li>
+          <li>Предиктивная аналитика аварий</li>
+          <li>Скоринг должников</li>
+          <li>Автовыгрузка в ГИС ЖКХ</li>
+          <li>ИИ-планирование персонала</li>
+          <li>Контроль КР на СОИ</li>
+        </ul>
+        <a href="https://t.me/Ignat_ki" class="price-cta" target="_blank">Рассчитать</a>
+      </div>
+    </div>
+    <div class="roi">
+      <div class="roi-grid">
+        <div class="roi-item">
+          <strong>150–300K ₽/мес</strong>
+          <span>экономия на диспетчерах</span>
+        </div>
+        <div class="roi-item">
+          <strong>&lt;12 мес</strong>
+          <span>окупаемость инвестиций</span>
+        </div>
+        <div class="roi-item">
+          <strong>−5%</strong>
+          <span>затрат на ремонты</span>
+        </div>
+        <div class="roi-item">
+          <strong>0 штрафов</strong>
+          <span>за ГИС ЖКХ при автовыгрузке</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team" id="команда">
+  <div class="container">
+    <h2>Готовы обсудить внедрение на вашей УК?</h2>
+    <p class="section-subtitle">Расскажем, какой из подходов подойдёт под ваши задачи и как быстро можно получить результат</p>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-role">Основатель · AIM Foundation</div>
+        <div class="team-name">Кирилл Игнатьев</div>
+        <div class="team-title">ИИ-решения для бизнеса</div>
+        <div class="team-desc">
+          Участвовал в заседании Общественной палаты РБ, где обсуждались проблемы управляющих компаний.
+          Видим большой потенциал ИИ в ЖКХ и помогаем УК сокращать операционные расходы и повышать качество обслуживания.
+        </div>
+        <div class="team-contact">
+          <div class="team-contact-icon">✈️</div>
+          <div class="team-contact-text">
+            <div class="team-contact-label">Telegram</div>
+            <div class="team-contact-value">@Ignat_ki</div>
+          </div>
+        </div>
+        <a href="https://t.me/Ignat_ki" class="tg-btn" target="_blank">Написать в Telegram</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>AIM Foundation</strong> · ИИ-автоматизация для управляющих компаний ЖКХ · 2026
+</footer>
+
+</body>
+</html>
