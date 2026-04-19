@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Гранторез: Карта ЛОМов по регионам</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            padding: 30px 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.95;
+            margin-bottom: 5px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px 25px;
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .region-section {
+            margin-bottom: 40px;
+        }
+
+        .region-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+
+        .region-rank {
+            font-size: 2.2em;
+            font-weight: bold;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .region-title {
+            flex: 1;
+        }
+
+        .region-name {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .region-stats {
+            display: flex;
+            gap: 30px;
+            font-size: 0.95em;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.85em;
+        }
+
+        .org-card {
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin-bottom: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .org-card:hover {
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.15);
+            transform: translateY(-2px);
+            background: #ffffff;
+        }
+
+        .org-type {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .org-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .org-description {
+            color: #666;
+            margin-bottom: 10px;
+            line-height: 1.5;
+            font-size: 0.95em;
+        }
+
+        .org-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .org-audience {
+            color: #764ba2;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .org-link {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9em;
+            font-weight: 600;
+            word-break: break-all;
+        }
+
+        .org-link:hover {
+            text-decoration: underline;
+        }
+
+        .status-active {
+            background: #d4edda;
+            color: #155724;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .status-planning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 600;
+        }
+
+        .federal-section {
+            background: linear-gradient(90deg, #f5f7fa 0%, #f0f4f8 100%);
+            border: 2px dashed #667eea;
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 50px;
+        }
+
+        .federal-section h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer {
+            background: #f9f9f9;
+            padding: 30px;
+            text-align: center;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .search-box {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .container { box-shadow: none; }
+            .org-card { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Гранторез: Карта ЛОМов (Лидеров Общественного Мнения)</h1>
+            <p>Организации для партнерства и распространения в 10 регионах-лидерах</p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-value">43+</div>
+                    <div class="stat-label">Организаций</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">10</div>
+                    <div class="stat-label">Регионов-лидеров</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value">3,340</div>
+                    <div class="stat-label">Заявок ПФКИ</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="🔍 Поиск по названию организации или типу...">
+            </div>
+
+            <!-- МОСКВА -->
+            <div class="region-section">
+                <div class="region-header">
+                    <div class="region-rank">🥇</div>
+                    <div class="region-title">
+                        <div class="region-name">Москва</div>
+                        <div class="region-stats">
+                            <span class="badge">962 заявки</span>
+                            <span class="badge">Высший приоритет</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="org-card">
+                    <div class="org-type">🏛️ Проектный офис ПФКИ</div>
+                    <div class="org-name">ПФКИ Москва</div>
+                    <div class="org-description">Официальная площадка консультаций и методологической помощи при подготовке к грантовому конкурсу</div>
+                    <div class="org-footer">
+                        <div class="org-audience">👥 Авторы творческих проектов</div>
+                        <span class="status-active">Активен</span>
+                    </div>
+                    <a href="https://xn--80aeeqaabljrdbg6a3ahhcl4ay9hsa.xn--p1ai/" class="org-link">📌 Перейти</a>
+                </div>
+
+                <div class="org-card">
+                    <div class="org-type">🎨 Агентство креативных индустрий</div>
+                    <div class="org-name">Агентство креативных индустрий Moscow</div>
+                    <div class="org-description">Мост между творческим бизнесом и органами власти. Информация о финансовой поддержке и аналитике</div>
+                    <div class="org-footer">
+                        <div class="org-audience">👥 Творческие предприниматели</div>
+                        <span class="status-active">Активен</span>
+                    </div>
+                    <a href="https://createdin.moscow/" class="org-link">📌 createdin.moscow</a>
+                </div>
+
+                <div class="org-card">
+                    <div class="org-type">🏭 Креативный кластер</div>
+                    <div class="org-name">Дизайн Завод + Хлебозавод</div>
+                    <div class="org-description">Интегрированное творческое пространство с мастерскими, коворкингами, выставками и концертными залами</div>
+                    <div class="org-footer">
+                        <div class="org-audience">👥 Творческие профессионалы</div>
+                        <span class="status-active">Активен</span>
+                    </div>
+                    <a href="https://kudago.com/msk/" class="org-link">📌 kudago.com</a>
+                </div>
+
+                <div class="org-card">
+                    <div class="org-type">💰 Федеральный фонд культуры</div>
+                    <div class="org-name">Российский фонд культуры</div>
+                    <div class="org-description">Гранты в 8 направлениях: музыка, театр, изобразительное искусство, народное творчество и др.</div>
+                    <div class="org-footer">
+                        <div class="org-audience">👥 НКО в сфере культуры</div>
+                        <span class="status-active">Активен</span>
+                    </div>
+                    <a href="https://rcfoundation.ru/" class="org-link">📌 rcfoundation.ru</a>
+                </div>
+
+                <div class="org-card">
+                    <div class="org-type">❤️ Благотворительный фонд</div>
+                    <div class="org-name">БФ КУБ / Культура благотворительности</div>
+                    <div class="org-description">Поддержка культурных инициатив через благотворительность; сотрудничество с бизнесом</div>
+                    <div class="org-footer">
+                        <div class="org-audience">👥 Организации культуры; предприниматели</div>
+                        <span class="status-active">Активен</span>
+                    </div>
+                    <a href="https://givingculture.ru/" class="org-link">📌 givingculture.ru</a>
+                </div>
+            </div>
+
+            <!-- ОМСК -->
+            <div class="region-section">
+                <div class="region-header">
+                    <div class="region-rank">🥈</div>
+                    <div class="region-title">
+                        <div class="region-name">Омская область</div>
+                        <div class="region-stats">
+                            <span class="badge">544 заявки</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="org-card">
+                    <div class="org-type">🏛️ Проектный офис ПФКИ</div>
+                    <div class="org-name">ПФКИ Омск</div>
+                    <div class="org-description">Помощь при подготовке заявок на грантовый конкурс ПФКИ</div>
+                    <div class="org-footer">
+                        <div class="org-audience">👥 Творческие команды области</div>
+                        <span class="status-active">Активен</span>
+                    </div>
+                </div>
+
+                <div class="org-card">
+                    <div class="org-type">🎨 Агентство развития</div>
+                    <div class="org-name">Агентство развития креативных индустрий Омска</div>
+                    <div class="org-description">Поддержка творческих проектов; связь с городскими инициативами</div>
+                    <div class="org-footer">
+                        <div class="org-audience">👥 Креативные предприниматели</div>
+                        <span class="status-active">Активно</span>
+                    </div>
+                    <a href="https://vk.com/creative_rb" class="org-link">📌 VK: creative_rb</a>
+                </div>
+            </div>
+
+            <!-- БАШКОРТОСТАН -->
+            <div class="region-section">
+                <div class="region-header">
+                    <div class="region-rank">🥉</div>
+                    <div class="region-title">
+                        <div class="region-name">Республика Башкортостан</div>
+                        <div class="region-stats">
+                            <span class="badge">409 заявок</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="org-card">
+                    <div class="org-type">🎯 Бизнес-шериф</div>
+                    <div class="org-name">Сеть бизнес-шерифов Башкортостана</div>
+                    <div class="org-description">✨ РЕКОМЕНДУЕТСЯ ДЛЯ СТАРТА. Система поддержки МСП на местах; помощь в грантах, субсидиях и льготах</div>
+                    <div class="org-footer">
+                        <div class="org-audience">👥 Предприниматели (включая творческих)</div>
+                        <span class="status-active">Активна сеть</span>
+                    </div>
+                    <a href="https://biznestur.bashkortostan.ru/" class="org-link">📌 biznestur.bashkortostan.ru</a>
+                </div>
+
+                <div class="org-card">
+                    <div class="org-type">💼 Агентство МСП</div>
+                    <div class="org-name">Агентство развития МСП / "Мой бизнес"</div>
+                    <div class="org-description">Консультирование и обучение предпринимателей; программы поддержки бизнеса</div>
+                    <div class="org-footer">
+                        <div class="org-audience">👥 Малое и среднее предпринимательство</div>
+                        <span class="status-active">Активно</span>
+                    </div>
+                    <a href="https://cmbrb.ru/" class="org-link">📌 cmbrb.ru</a>
+                </div>
+
+                <div class="org-card">
+                    <div class="org-type">👩‍💼 Ассоциация предпринимателей</div>
+                    <div class="org-name">Ассоциация предпринимателей Башкортостана (АПРБ)</div>
+                    <div class="org-description">Продвижение предпринимательства; программы развития МСП на 2024-2027</div>
+                    <div class="org-footer">
+                        <div class="org-audience">👥 Все категории предпринимателей</div>
+                        <span class="status-active">Активна</span>
+                    </div>
+                    <a href="https://asprb.ru/" class="org-link">📌 asprb.ru</a>
+                </div>
+            </div>
+
+            <!-- БЕЛГОРОДСКАЯ ОБЛАСТЬ -->
+            <div class="region-section">
+                <div class="region-header">
+                    <div class="region-rank">4️⃣</div>
+                    <div class="region-title">
+                        <div class="region-name">Белгородская область</div>
+                        <div class="region-stats">
+                            <span class="badge">407 заявок</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="org-card">
+                    <div class="org-type">🏛️ Проектный офис ПФКИ</div>
+                    <div class="org-name">ПФКИ Белгородская область</div>
+                    <div class="org-description">Консультирование творческих команд при подготовке к грантовому конкурсу</div>
+                    <div class="org-footer">
+                        <div class="org-audience">👥 Авторы проектов культуры</div>
+                        <span class="status-active">Активен</span>
+                    </div>
+                </div>
+
+                <div class="org-card">
+                    <div class="org-type">🤝 Ресурсный центр НКО</div>
+                    <div class="org-name">Портал поддержки НКО Белгородской области</div>
+                    <div class="org-description">Координация грантовых программ; информирование о возможностях финансирования</div>
+                    <div class="org-footer">
+                        <div class="org-audience">👥 НКО развития творчества</div>
+                        <span class="status-active">Активен</span>
+                    </div>
+                    <a href="https://belnko.ru/" class="org-link">📌 belnko.ru</a>
+                </div>
+            </div>
+
+            <!-- НИЖЕГОРОДСКАЯ ОБЛАСТЬ -->
+            <div class="region-section">
+                <div class="region-header">
+                    <div class="region-rank">5️⃣</div>
+                    <div class="region-title">
+                        <div class="region-name">Нижегородская область</div>
+                        <div class="region-stats">
+                            <span class="badge">354 заявки</span>
+                            <span class="badge">Высокий потенциал</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="org-card">
+                    <div class="org-type">🏛️ Проектный офис ПФКИ</div>
+                    <div class="org-name">ПФКИ Нижегородская область</div>
+                    <div class="org-description">Площадка обучения и консультирования по подготовке к ПФКИ; 230+ поддержанных проектов</div>
+                    <div class="org-footer">
+                        <div class="org-audience">👥 Творческие команды</div>
+                        <span class="status-active">Активен</span>
+                    </div>
+                    <a href="https://vk.com/pfcinnov" class="org-link">📌 VK: pfcinnov</a>
+                </div>
+            </div>
+
+            <!-- ТАТАРСТАН -->
+            <div class="region-section">
+                <div class="region-header">
+                    <div class="region-rank">6️⃣</div>
+                    <div class="region-title">
+                        <div class="region-name">Республика Татарстан</div>
+                        <div class="region-stats">
+                            <span class="badge">337 заявок</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="org-card">
+                    <div class="org-type">🎓 Ресурсный центр культуры</div>
+                    <div class="org-name">Таткультресурсцентр</div>
+                    <div class="org-description">Поддержка инноваций и развития в культуре; гранты ПФКИ; информирование о программах</div>
+                    <div class="org-footer">
+                        <div class="org-audience">👥 Деятели культуры; креативные индустрии</div>
+                        <span class="status-active">Активен</span>
+                    </div>
+                    <a href="https://tatcultresurs.ru/" class="org-link">📌 tatcultresurs.ru</a>
+                </div>
+            </div>
+
+            <!-- САНКТ-ПЕТЕРБУРГ -->
+            <div class="region-section">
+                <div class="region-header">
+                    <div class="region-rank">7️⃣</div>
+                    <div class="region-title">
+                        <div class="region-name">Санкт-Петербург</div>
+                        <div class="region-stats">
+                            <span class="badge">292 заявки</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="org-card">
+                    <div class="org-type">🤝 Ресурсный центр НКО</div>
+                    <div class="org-name">Ресурсный центр НКО СПб "Круглый стол"</div>
+                    <div class="org-description">Координационная платформа для НКО; 8000+ организаций в сети</div>
+                    <div class="org-footer">
+                        <div class="org-audience">👥 НКО Санкт-Петербурга</div>
+                        <span class="status-active">Активен</span>
+                    </div>
+                    <a href="https://vk.com/spbks" class="org-link">📌 VK: spbks</a>
+                </div>
+            </div>
+
+            <!-- ОСТАЛЬНЫЕ РЕГИОНЫ -->
+            <div class="region-section">
+                <div class="region-header">
+                    <div class="region-rank">8-10</div>
+                    <div class="region-title">
+                        <div class="region-name">Кемеровская, Удмуртская, Саха (Якутия)</div>
+                        <div class="region-stats">
+                            <span class="badge">675 заявок вместе</span>
+                        </div>
+                    </div>
+                </div>
+
+                <p style="color: #666; margin-bottom: 20px;">В каждом регионе работают проектные офисы ПФКИ и региональные ресурсные центры НКО. Подробная информация в основной таблице.</p>
+            </div>
+
+            <!-- ФЕДЕРАЛЬНЫЙ УРОВЕНЬ -->
+            <div class="federal-section">
+                <h3>⭐ Федеральные партнеры (работают со всеми регионами)</h3>
+
+                <div class="org-card">
+                    <div class="org-type">💰 Федеральный фонд культуры</div>
+                    <div class="org-name">Российский фонд культуры (РФК)</div>
+                    <div class="org-description">Национальная организация. Гранты в 8 направлениях культуры. 46 региональных отделений. Может быть партнером на федеральном уровне.</div>
+                    <div class="org-footer">
+                        <div class="org-audience">👥 НКО в сфере культуры; авторские инициативы</div>
+                        <span class="status-active">Активен</span>
+                    </div>
+                    <a href="https://rcfoundation.ru/" class="org-link">📌 rcfoundation.ru</a>
+                </div>
+
+                <div class="org-card">
+                    <div class="org-type">❤️ Благотворительный фонд</div>
+                    <div class="org-name">Фонд поддержки культуры «Прокультуру»</div>
+                    <div class="org-description">Поддержка музейной деятельности; просветительские и образовательные проекты в сфере культуры</div>
+                    <div class="org-footer">
+                        <div class="org-audience">👥 Организации культуры; авторские инициативы</div>
+                        <span class="status-active">Активен</span>
+                    </div>
+                    <a href="https://fabculture.org/" class="org-link">📌 fabculture.org</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p><strong>Гранторез: Карта ЛОМов (Лидеров Общественного Мнения)</strong></p>
+            <p>43+ организаций из 10 регионов-лидеров по количеству заявок ПФКИ</p>
+            <p style="margin-top: 15px; font-size: 0.85em;">Дата подготовки: 19 апреля 2026 | Версия 2.0</p>
+            <p style="margin-top: 10px; color: #999;">💡 Начните с бизнес-шерифов Башкортостана или проектных офисов ПФКИ для прямого доступа к целевой аудитории</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('searchInput').addEventListener('keyup', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const cards = document.querySelectorAll('.org-card');
+
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>
