@@ -30,11 +30,12 @@
     }
     .nav-logo { font-size: 20px; font-weight: 800; color: #0f2540; }
     .nav-cta {
-      background: #1066c0; color: white; padding: 10px 24px;
+      background: linear-gradient(135deg, #7ee640 0%, #5fd932 100%);
+      color: #0f2540; padding: 10px 24px;
       border-radius: 50px; font-size: 14px; font-weight: 600;
       text-decoration: none; transition: all .2s;
     }
-    .nav-cta:hover { background: #0f2540; }
+    .nav-cta:hover { background: linear-gradient(135deg, #9ff24f 0%, #7ee640 100%); transform: translateY(-2px); }
 
     /* HERO */
     .hero {
@@ -66,7 +67,7 @@
 
     section { padding: 100px 24px; }
     .container { max-width: 1200px; margin: 0 auto; }
-    h2 { font-size: 48px; font-weight: 800; margin-bottom: 16px; color: #0f2540; }
+    h2 { font-size: 48px; font-weight: 800; margin-bottom: 16px; color: #0f2540; background: linear-gradient(135deg, #0f2540 0%, #0f2540 70%, #7ee640 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .subtitle { font-size: 18px; color: #666; margin-bottom: 60px; }
 
     /* CASES */
@@ -91,7 +92,7 @@
     .pricing-section { background: #f8fafc; }
     .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; margin-top: 40px; }
     .pricing-card { background: white; border: 2px solid #e5e7eb; border-radius: 16px; padding: 32px; }
-    .pricing-card.featured { border-color: #1066c0; box-shadow: 0 0 0 3px rgba(16,102,192,.1); }
+    .pricing-card.featured { border-color: #7ee640; box-shadow: 0 0 0 3px rgba(126, 230, 64, .15); background: linear-gradient(135deg, white 0%, rgba(126, 230, 64, .03) 100%); }
     .pricing-title { font-size: 20px; font-weight: 700; margin-bottom: 12px; color: #0f2540; }
     .pricing-price { font-size: 28px; font-weight: 900; color: #1066c0; margin: 16px 0; }
     .pricing-desc { font-size: 14px; color: #666; margin-bottom: 20px; line-height: 1.6; }
@@ -101,6 +102,17 @@
 
     /* PROFILE */
     .profile-photo { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: 0 auto 16px; border: 4px solid #e5e7eb; }
+
+    /* ACCENT COLORS */
+    .lime { color: #7ee640; }
+    .lime-bg { background: rgba(126, 230, 64, .08); border-left: 4px solid #7ee640; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-top: 40px; }
+    .stat-card { background: rgba(126, 230, 64, .05); border: 1px solid rgba(126, 230, 64, .2); border-radius: 12px; padding: 24px; text-align: center; }
+    .stat-number { font-size: 36px; font-weight: 900; color: #7ee640; margin-bottom: 8px; }
+    .stat-label { font-size: 13px; color: #666; }
+
+    /* 4TH CARD CENTERED */
+    .cases-grid > :nth-child(4) { grid-column: 1 / -1; max-width: 340px; margin: 0 auto; }
 
     /* CONTACT */
     .contact {
@@ -150,6 +162,21 @@
     <h1>ИИ и автоматизация<br><span>для управления жилищным фондом</span></h1>
     <p>Системный подход: от анализа процессов до внедрения решений. Реальные результаты на практике.</p>
     <p style="font-size: 16px; opacity: .75; margin-top: 24px;">Помогаем УК сокращать операционные расходы, повышать качество обслуживания и автоматизировать рутину через ИИ-инструменты и цифровые процессы.</p>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">15+</div>
+        <div class="stat-label">Реализованных проектов для УК</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">150–300K ₽</div>
+        <div class="stat-label">Средняя экономия в месяц</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">40 млн ₽</div>
+        <div class="stat-label">Сэкономлено для наших клиентов</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -193,23 +220,17 @@
         </div>
       </div>
 
-    </div>
-  </div>
-</section>
-
-<!-- DOCUMENT ANALYSIS - CENTERED -->
-<section style="background: white; padding: 80px 24px;">
-  <div class="container">
-    <div style="max-width: 700px; margin: 0 auto;">
-      <div style="background: #f8fafc; border-radius: 16px; padding: 40px; border-left: 4px solid #1066c0;">
+      <!-- Case 4 -->
+      <div class="case-card">
         <div class="case-label">📄 Анализ документов ИИ</div>
-        <h3 style="font-size: 24px; margin: 16px 0;">Автоматическая обработка договоров и актов</h3>
-        <p style="font-size: 15px; color: #666; margin-bottom: 20px;">УК получает сотни документов ежемесячно: договоры жилищно-коммунального обслуживания, акты ремонта, жалобы, счёта коммунальщиков. ИИ автоматически их анализирует, выделяет правовые риски, расхождения с нормативами, обновления тарифов. Предлагает готовые действия. Ошибок в обработке практически не остаётся.</p>
-        <div style="padding-top: 16px; border-top: 1px solid #e5e7eb;">
-          <div style="font-size: 10px; font-weight: 700; color: #666; text-transform: uppercase; margin-bottom: 8px;">Результат</div>
-          <div style="font-size: 16px; font-weight: 700; color: #0f2540;">Из часов на документ — в минуты, ноль ошибок в классификации</div>
+        <h3>Автоматическая обработка договоров и актов</h3>
+        <p>УК получает сотни документов ежемесячно: договоры жилищно-коммунального обслуживания, акты ремонта, жалобы, счёта коммунальщиков. ИИ автоматически их анализирует, выделяет правовые риски, расхождения с нормативами, обновления тарифов. Предлагает готовые действия. Ошибок в обработке практически не остаётся.</p>
+        <div class="case-result">
+          <div class="result-label">Результат</div>
+          <div class="result-value">Из часов на документ — в минуты, ноль ошибок в классификации</div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -219,33 +240,42 @@
   <div class="container">
     <h2>ИИ-ассистент для жителей в MAX</h2>
     <p class="subtitle">Снимаем типовые обращения с диспетчеров</p>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;">
       <div>
-        <div style="background: white; border-radius: 16px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,.05);">
-          <div style="font-size: 36px; margin-bottom: 16px;">💬</div>
-          <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">Чат-бот в MAX для ответов 24/7</h3>
-          <p style="font-size: 14px; color: #666; line-height: 1.7; margin-bottom: 20px;">Бот отвечает на вопросы жилищно-коммунальной тематики: тарифы, сроки ремонта, порядок подачи заявок, права и обязанности жильцов. Обучен на регламенте вашей УК и актуальных законах. Сложные обращения передаёт диспетчерам автоматически.</p>
-          <ul style="list-style: none; margin: 16px 0; font-size: 13px;">
-            <li style="margin: 10px 0;"><span style="color: #1066c0; font-weight: 700;">✓</span> Отвечает на основе законов и регламентов УК</li>
-            <li style="margin: 10px 0;"><span style="color: #1066c0; font-weight: 700;">✓</span> Работает 24/7 без выходных</li>
-            <li style="margin: 10px 0;"><span style="color: #1066c0; font-weight: 700;">✓</span> Интеграция с MAX для удобства жильцов</li>
-            <li style="margin: 10px 0;"><span style="color: #1066c0; font-weight: 700;">✓</span> Автоматическая передача сложных вопросов</li>
-          </ul>
+        <div style="font-size: 13px; opacity: .8; margin-bottom: 24px; font-weight: 600; color: #0f2540;">При нагрузке 500–1000 обращений/день:</div>
+        <div style="background: white; border-radius: 16px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,.05); margin-bottom: 24px;">
+          <div style="margin-bottom: 28px;">
+            <div style="font-size: 42px; font-weight: 900; color: #7ee640; margin-bottom: 8px;">60–70%</div>
+            <div style="font-size: 14px; color: #666; font-weight: 600;">обращений снимаются автоматом</div>
+          </div>
+          <div style="border-top: 1px solid #e5e7eb; padding-top: 28px;">
+            <div style="font-size: 42px; font-weight: 900; color: #7ee640; margin-bottom: 8px;">150–300K ₽</div>
+            <div style="font-size: 14px; color: #666; font-weight: 600;">экономия в месяц на операторах</div>
+          </div>
+          <div style="margin-top: 28px; padding-top: 28px; border-top: 1px solid #e5e7eb; font-size: 13px; color: #0f2540; font-weight: 700;">⏱ Окупаемость: меньше года</div>
+        </div>
+        <div style="background: rgba(126, 230, 64, .08); border-left: 4px solid #7ee640; border-radius: 8px; padding: 20px;">
+          <div style="font-size: 13px; color: #666;"><span style="color: #7ee640; font-weight: 700;">✓</span> Работает 24/7 без выходных</div>
+          <div style="font-size: 13px; color: #666; margin-top: 8px;"><span style="color: #7ee640; font-weight: 700;">✓</span> Автоматическая передача сложных вопросов</div>
         </div>
       </div>
       <div>
-        <div style="background: linear-gradient(135deg, #0f2540 0%, #1a4a8a 100%); border-radius: 16px; padding: 40px; color: white;">
-          <div style="font-size: 48px; margin-bottom: 24px; text-align: center;">📊</div>
-          <div style="font-size: 13px; opacity: .8; margin-bottom: 24px;">Экономия и результаты при нагрузке 500–1000 обращений/день:</div>
-          <div style="background: rgba(255,255,255,.1); border-radius: 12px; padding: 24px; margin-bottom: 20px;">
-            <div style="font-size: 28px; font-weight: 900; color: #64b8ff;">60–70%</div>
-            <div style="font-size: 13px; opacity: .9;">обращений снимаются автоматом</div>
+        <div style="background: linear-gradient(135deg, #0f2540 0%, #1a4a8a 100%); border-radius: 16px; padding: 24px; color: white; box-shadow: 0 8px 32px rgba(0,0,0,.15);">
+          <div style="font-size: 12px; opacity: .8; font-weight: 700; letter-spacing: .5px; margin-bottom: 16px;">MAX CHAT</div>
+          <div style="background: rgba(0,0,0,.2); border-radius: 12px; padding: 20px; font-size: 12px; line-height: 1.8;">
+            <div style="margin-bottom: 16px;">
+              <div style="background: rgba(126, 230, 64, .2); color: white; padding: 12px; border-radius: 8px; margin-bottom: 8px; max-width: 80%; word-wrap: break-word;">Когда будет текущий ремонт кровли?</div>
+            </div>
+            <div style="margin-bottom: 16px;">
+              <div style="background: rgba(100, 184, 255, .3); color: white; padding: 12px; border-radius: 8px; margin-left: auto; max-width: 85%; word-wrap: break-word; text-align: right;">Текущий ремонт кровли запланирован на май 2026. Смета согласована, работы начнутся в первую неделю.</div>
+            </div>
+            <div style="margin-bottom: 16px;">
+              <div style="background: rgba(126, 230, 64, .2); color: white; padding: 12px; border-radius: 8px; margin-bottom: 8px; max-width: 80%; word-wrap: break-word;">Сколько будут платежи за отопление?</div>
+            </div>
+            <div style="margin-bottom: 8px;">
+              <div style="background: rgba(100, 184, 255, .3); color: white; padding: 12px; border-radius: 8px; margin-left: auto; max-width: 85%; word-wrap: break-word; text-align: right;">В текущем году отопление стоит 2850 ₽/месяц. С мая тариф может измениться...</div>
+            </div>
           </div>
-          <div style="background: rgba(255,255,255,.1); border-radius: 12px; padding: 24px;">
-            <div style="font-size: 28px; font-weight: 900; color: #64b8ff;">150–300K ₽</div>
-            <div style="font-size: 13px; opacity: .9;">экономия в месяц на операторах</div>
-          </div>
-          <div style="margin-top: 24px; font-size: 12px; opacity: .8; text-align: center;">Окупаемость: меньше года</div>
         </div>
       </div>
     </div>
@@ -288,7 +318,7 @@
           <li>Обучение команды</li>
           <li>Полное тестирование на реальных данных</li>
         </ul>
-        <div style="font-size: 12px; color: #0f2540; margin-top: 16px; padding-top: 16px; border-top: 1px solid #e5e7eb; font-weight: 700;">Плюс 37–58K ₽/месяц (инфраструктура)</div>
+        <div style="font-size: 12px; color: #7ee640; margin-top: 16px; padding-top: 16px; border-top: 1px solid #e5e7eb; font-weight: 700;">✓ Плюс 37–58K ₽/месяц (инфраструктура)</div>
       </div>
 
     </div>
@@ -335,17 +365,15 @@
 
     <div style="background: #f8fafc; padding: 40px; border-radius: 16px; max-width: 600px; margin: 0 auto;">
       <img src="kirill.jpg" alt="Кирилл Игнатьев" class="profile-photo">
-      <div style="font-size: 14px; color: #666; margin-bottom: 12px; text-align: center;">
-        Менеджер заказов · Первая точка входа
-      </div>
+      <div style="font-size: 14px; color: #666; margin-bottom: 12px; text-align: center;">Менеджер заказов</div>
       <div style="font-size: 24px; font-weight: 800; margin-bottom: 8px; text-align: center;">Кирилл Игнатьев</div>
       <p style="font-size: 14px; color: #666; margin-bottom: 24px; text-align: center;">
         Обсудим вашу задачу, подберём подходящий формат работы и оценим сроки.
       </p>
 
       <div class="contact-btns">
-        <a href="https://max.ru/u/f9LHodD0cOIrZoVpHY4xYdRMWWNu2HBZ93ib4BNZ4EzwnU7XX3Ul5AVIMlI" target="_blank" class="tg-btn" style="background: #1066c0;">💬 MAX</a>
-        <a href="https://t.me/Ignat_ki" target="_blank" class="tg-btn" style="background: #1a4a8a;">✈️ Telegram</a>
+        <a href="https://max.ru/u/f9LHodD0cOIrZoVpHY4xYdRMWWNu2HBZ93ib4BNZ4EzwnU7XX3Ul5AVIMlI" target="_blank" class="tg-btn" style="background: linear-gradient(135deg, #7ee640 0%, #5fd932 100%); color: #0f2540; font-weight: 700;">💬 MAX</a>
+        <a href="https://t.me/Ignat_ki" target="_blank" class="tg-btn" style="background: #1066c0;">✈️ Telegram</a>
         <a href="tel:+79968837063" class="tg-btn" style="background: #0f2540;">📞 +7 996 883 70 63</a>
       </div>
     </div>
