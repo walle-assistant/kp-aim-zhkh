@@ -87,6 +87,21 @@
     .result-label { font-size: 10px; font-weight: 700; color: #666; text-transform: uppercase; }
     .result-value { font-size: 16px; font-weight: 700; color: #0f2540; margin-top: 4px; }
 
+    /* PRICING */
+    .pricing-section { background: #f8fafc; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 28px; margin-top: 40px; }
+    .pricing-card { background: white; border: 2px solid #e5e7eb; border-radius: 16px; padding: 32px; }
+    .pricing-card.featured { border-color: #1066c0; box-shadow: 0 0 0 3px rgba(16,102,192,.1); }
+    .pricing-title { font-size: 20px; font-weight: 700; margin-bottom: 12px; color: #0f2540; }
+    .pricing-price { font-size: 28px; font-weight: 900; color: #1066c0; margin: 16px 0; }
+    .pricing-desc { font-size: 14px; color: #666; margin-bottom: 20px; line-height: 1.6; }
+    .pricing-list { list-style: none; margin: 20px 0; }
+    .pricing-list li { font-size: 13px; color: #666; margin: 10px 0; padding-left: 24px; position: relative; }
+    .pricing-list li:before { content: '✓'; position: absolute; left: 0; color: #1066c0; font-weight: 700; }
+
+    /* PROFILE */
+    .profile-photo { width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin: 0 auto 16px; border: 4px solid #e5e7eb; }
+
     /* CONTACT */
     .contact {
       background: white;
@@ -115,6 +130,7 @@
       h2 { font-size: 32px; }
       section { padding: 60px 24px; }
       .cases-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -124,7 +140,7 @@
 <nav>
   <div class="nav-inner">
     <div class="nav-logo">бюро «Диалектика»</div>
-    <a href="https://t.me/Ignat_ki" class="nav-cta">Обсудить</a>
+    <a href="#contact" class="nav-cta">Обсудить</a>
   </div>
 </nav>
 
@@ -177,15 +193,102 @@
         </div>
       </div>
 
-      <!-- Case 4 -->
-      <div class="case-card">
+    </div>
+  </div>
+</section>
+
+<!-- DOCUMENT ANALYSIS - CENTERED -->
+<section style="background: white; padding: 80px 24px;">
+  <div class="container">
+    <div style="max-width: 700px; margin: 0 auto;">
+      <div style="background: #f8fafc; border-radius: 16px; padding: 40px; border-left: 4px solid #1066c0;">
         <div class="case-label">📄 Анализ документов ИИ</div>
-        <h3>Автоматическая обработка договоров и актов</h3>
-        <p>УК получает сотни документов ежемесячно: договоры жилищно-коммунального обслуживания, акты ремонта, жалобы, счёта коммунальщиков. ИИ автоматически их анализирует, выделяет правовые риски, расхождения с нормативами, обновления тарифов. Предлагает готовые действия. Ошибок в обработке практически не остаётся.</p>
-        <div class="case-result">
-          <div class="result-label">Результат</div>
-          <div class="result-value">Из часов на документ — в минуты, ноль ошибок в классификации</div>
+        <h3 style="font-size: 24px; margin: 16px 0;">Автоматическая обработка договоров и актов</h3>
+        <p style="font-size: 15px; color: #666; margin-bottom: 20px;">УК получает сотни документов ежемесячно: договоры жилищно-коммунального обслуживания, акты ремонта, жалобы, счёта коммунальщиков. ИИ автоматически их анализирует, выделяет правовые риски, расхождения с нормативами, обновления тарифов. Предлагает готовые действия. Ошибок в обработке практически не остаётся.</p>
+        <div style="padding-top: 16px; border-top: 1px solid #e5e7eb;">
+          <div style="font-size: 10px; font-weight: 700; color: #666; text-transform: uppercase; margin-bottom: 8px;">Результат</div>
+          <div style="font-size: 16px; font-weight: 700; color: #0f2540;">Из часов на документ — в минуты, ноль ошибок в классификации</div>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAX BOT SECTION -->
+<section style="background: #f8fafc; padding: 80px 24px;">
+  <div class="container">
+    <h2>ИИ-ассистент для жителей в MAX</h2>
+    <p class="subtitle">Снимаем типовые обращения с диспетчеров</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;">
+      <div>
+        <div style="background: white; border-radius: 16px; padding: 32px; box-shadow: 0 2px 12px rgba(0,0,0,.05);">
+          <div style="font-size: 36px; margin-bottom: 16px;">💬</div>
+          <h3 style="font-size: 20px; font-weight: 700; margin-bottom: 16px;">Чат-бот в MAX для ответов 24/7</h3>
+          <p style="font-size: 14px; color: #666; line-height: 1.7; margin-bottom: 20px;">Бот отвечает на вопросы жилищно-коммунальной тематики: тарифы, сроки ремонта, порядок подачи заявок, права и обязанности жильцов. Обучен на регламенте вашей УК и актуальных законах. Сложные обращения передаёт диспетчерам автоматически.</p>
+          <ul style="list-style: none; margin: 16px 0; font-size: 13px;">
+            <li style="margin: 10px 0;"><span style="color: #1066c0; font-weight: 700;">✓</span> Отвечает на основе законов и регламентов УК</li>
+            <li style="margin: 10px 0;"><span style="color: #1066c0; font-weight: 700;">✓</span> Работает 24/7 без выходных</li>
+            <li style="margin: 10px 0;"><span style="color: #1066c0; font-weight: 700;">✓</span> Интеграция с MAX для удобства жильцов</li>
+            <li style="margin: 10px 0;"><span style="color: #1066c0; font-weight: 700;">✓</span> Автоматическая передача сложных вопросов</li>
+          </ul>
+        </div>
+      </div>
+      <div>
+        <div style="background: linear-gradient(135deg, #0f2540 0%, #1a4a8a 100%); border-radius: 16px; padding: 40px; color: white;">
+          <div style="font-size: 48px; margin-bottom: 24px; text-align: center;">📊</div>
+          <div style="font-size: 13px; opacity: .8; margin-bottom: 24px;">Экономия и результаты при нагрузке 500–1000 обращений/день:</div>
+          <div style="background: rgba(255,255,255,.1); border-radius: 12px; padding: 24px; margin-bottom: 20px;">
+            <div style="font-size: 28px; font-weight: 900; color: #64b8ff;">60–70%</div>
+            <div style="font-size: 13px; opacity: .9;">обращений снимаются автоматом</div>
+          </div>
+          <div style="background: rgba(255,255,255,.1); border-radius: 12px; padding: 24px;">
+            <div style="font-size: 28px; font-weight: 900; color: #64b8ff;">150–300K ₽</div>
+            <div style="font-size: 13px; opacity: .9;">экономия в месяц на операторах</div>
+          </div>
+          <div style="margin-top: 24px; font-size: 12px; opacity: .8; text-align: center;">Окупаемость: меньше года</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING SECTION -->
+<section class="pricing-section">
+  <div class="container">
+    <h2>Цены и форматы внедрения</h2>
+    <p class="subtitle">Выбери подходящий вариант для твоей УК</p>
+    <div class="pricing-grid">
+
+      <!-- MVP Card -->
+      <div class="pricing-card">
+        <div style="font-size: 11px; font-weight: 800; color: #666; text-transform: uppercase; margin-bottom: 8px; letter-spacing: .5px;">📌 Пилот / MVP</div>
+        <div class="pricing-title">Демо и тестирование</div>
+        <div class="pricing-price">40–70K ₽</div>
+        <div class="pricing-desc">Быстрый старт: разработка бота, подключение к базе знаний и LLM</div>
+        <ul class="pricing-list">
+          <li>Разработка бота в MAX: 15–25K ₽</li>
+          <li>RAG-система (поиск по документам): 10–20K ₽</li>
+          <li>Подключение GigaChat Lite API: 2–5K ₽</li>
+          <li>Инфраструктура (1 месяц): 2–3K ₽</li>
+          <li>Тестирование и правки: 10–15K ₽</li>
+        </ul>
+        <div style="font-size: 12px; color: #666; margin-top: 16px; padding-top: 16px; border-top: 1px solid #e5e7eb;">Идеально для первого теста и оценки результатов</div>
+      </div>
+
+      <!-- Full Card -->
+      <div class="pricing-card featured">
+        <div style="font-size: 11px; font-weight: 800; color: #1066c0; text-transform: uppercase; margin-bottom: 8px; letter-spacing: .5px;">⭐ Полный запуск</div>
+        <div class="pricing-title">Запуск под ключ</div>
+        <div class="pricing-price">200–380K ₽</div>
+        <div class="pricing-desc">Полная разработка, наполнение базы знаний, интеграция, тестирование</div>
+        <ul class="pricing-list">
+          <li>Разработка бота в MAX с полным функционалом</li>
+          <li>Наполнение базы: ЖК РФ, ПП №354, тарифы региона</li>
+          <li>Интеграция с учётными системами УК</li>
+          <li>Обучение команды</li>
+          <li>Полное тестирование на реальных данных</li>
+        </ul>
+        <div style="font-size: 12px; color: #0f2540; margin-top: 16px; padding-top: 16px; border-top: 1px solid #e5e7eb; font-weight: 700;">Плюс 37–58K ₽/месяц (инфраструктура)</div>
       </div>
 
     </div>
@@ -217,22 +320,26 @@
       <p style="margin-top: 40px; font-size: 14px; color: #666; line-height: 1.8;">
         Мы не просто консультируем — мы реализуем. От первого контакта до стабильной работы в продуктиве. Все наши решения имеют измеримый бизнес-эффект: сокращение часов на рутину, повышение качества обслуживания, рост удовлетворённости жителей.
       </p>
+      <p style="margin-top: 24px; font-size: 14px; color: #0f2540; font-weight: 600;">
+        <a href="https://drive.google.com/file/d/12pw2gHmEBhL0sXJfN3KC1za3RYDDQeS0/view?usp=drive_link" target="_blank" style="color: #1066c0; text-decoration: none;">📁 Посмотри наши кейсы в портфолио →</a>
+      </p>
     </div>
   </div>
 </section>
 
 <!-- CONTACT -->
-<section class="contact">
+<section class="contact" id="contact">
   <div class="container">
     <h2>Готовы обсудить внедрение на вашей УК?</h2>
     <p class="subtitle">Каждая УК уникальна. Расскажем, какой из подходов подойдёт под ваши задачи, бюджет и сроки, и как быстро можно получить первый результат</p>
 
-    <div style="background: #f8fafc; padding: 32px; border-radius: 16px; max-width: 600px; margin: 0 auto;">
-      <div style="font-size: 14px; color: #666; margin-bottom: 12px;">
+    <div style="background: #f8fafc; padding: 40px; border-radius: 16px; max-width: 600px; margin: 0 auto;">
+      <img src="kirill.jpg" alt="Кирилл Игнатьев" class="profile-photo">
+      <div style="font-size: 14px; color: #666; margin-bottom: 12px; text-align: center;">
         Менеджер заказов · Первая точка входа
       </div>
-      <div style="font-size: 24px; font-weight: 800; margin-bottom: 8px;">Кирилл Игнатьев</div>
-      <p style="font-size: 14px; color: #666; margin-bottom: 24px;">
+      <div style="font-size: 24px; font-weight: 800; margin-bottom: 8px; text-align: center;">Кирилл Игнатьев</div>
+      <p style="font-size: 14px; color: #666; margin-bottom: 24px; text-align: center;">
         Обсудим вашу задачу, подберём подходящий формат работы и оценим сроки.
       </p>
 
@@ -240,7 +347,6 @@
         <a href="https://max.ru/u/f9LHodD0cOIrZoVpHY4xYdRMWWNu2HBZ93ib4BNZ4EzwnU7XX3Ul5AVIMlI" target="_blank" class="tg-btn" style="background: #1066c0;">💬 MAX</a>
         <a href="https://t.me/Ignat_ki" target="_blank" class="tg-btn" style="background: #1a4a8a;">✈️ Telegram</a>
         <a href="tel:+79968837063" class="tg-btn" style="background: #0f2540;">📞 +7 996 883 70 63</a>
-        <a href="https://drive.google.com/file/d/12pw2gHmEBhL0sXJfN3KC1za3RYDDQeS0/view?usp=drive_link" target="_blank" class="tg-btn" style="background: #064e3b;">📁 Портфолио</a>
       </div>
     </div>
   </div>
